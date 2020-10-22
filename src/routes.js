@@ -50,9 +50,9 @@ export default new Router({
 					}
 				},
 				{
-					path: '/details',
-					name: 'details',
-					component: resolve => require(['./views/details.vue'], resolve),
+					path: '/detail',
+					name: 'detail',
+					component: resolve => require(['./views/detail.vue'], resolve),
 					meta: {
 						title: '商品详情'
 					}

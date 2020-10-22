@@ -102,6 +102,7 @@ body {
 .el-main{
 	min-height: calc(100vh - 121px);
 	padding: 20px;
+	padding-bottom: 30px;
 }
 
 .el-aside{
@@ -273,6 +274,30 @@ body {
 	}
 }
 
+.step-box{
+	background: #E6A23C;
+	margin-top: 30px;
+	padding: 20px;
+	color: #FFFFFF;
+}
+
+.step-box .item .title{
+	font-size: 24px;
+	margin-right: 10px;
+}
+
+.step-box .item{
+	text-align: center;
+}
+
+.step-box .item .title i{
+	margin-right: 10px;
+}
+
+.step-box .item .text{
+	margin-top: 10px;
+}
+
 // login/signup
 .longin-box{
 	width: 100%;
@@ -379,7 +404,7 @@ body {
 
 /* details */
 .productView-box {
-	width: 70%;
+	width: 80%;
 	margin: 0 auto;
 	background: #FFFFFF;
 	padding: 30px;
@@ -427,7 +452,26 @@ body {
 
 .contact {
 	margin-top: 30px;
-	font-size: 18px;
+	font-size: 16px;
+	background: #F2F2F2;
+	padding: 8px 15px;
+}
+
+.step-con{
+	font-size: 14px;
+	margin-top: 10px;
+}
+
+.step-con .item{
+	padding: 15px;
+	background: #F5FFD7;
+	border-bottom: 1px solid #cdd4b6;
+}
+
+.step-con .item.title{
+	padding: 15px 5px;
+	background: #E6A23C;
+	color: #FFFFFF;
 }
 
 /* order */

@@ -178,7 +178,7 @@
 			//查看商品详情
 			viewDetails(id) {
 				this.$router.push({
-					path: '/details',
+					path: '/detail',
 					query: {
 						id: id
 					}

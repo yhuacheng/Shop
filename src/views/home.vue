@@ -11,6 +11,34 @@
 				<a :href="item.Link" target="_blank"><img class="banner-img" ref="bannerHeight" :src="$IMGURL+item.Image"></a>
 			</el-carousel-item>
 		</el-carousel>
+
+		<el-row class="step-box">
+			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+				<div class="item">
+					<div class="title"><i class="el-icon-document-checked"></i>AUDIT >>></span></div>
+					<div class="text">Click the 'Review Request' button and Waiting for audit</div>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+				<div class="item">
+					<div class="title"><i class="el-icon-shopping-cart-2"></i>CONFIRMATION >>></div>
+					<div class="text">Get seller confirmation and buy on Amazon within 7 days</div>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+				<div class="item">
+					<div class="title"><i class="el-icon-circle-check"></i>APPROVED >>></div>
+					<div class="text">Fill in Amazon order info and approved by the system</div>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+				<div class="item">
+					<div class="title"><i class="el-icon-bank-card"></i>CASHBACK</div>
+					<div class="text">Get the refund to your PayPal account</div>
+				</div>
+			</el-col>
+		</el-row>
+
 		<el-row :gutter="30">
 			<el-divider v-if="productData.length>0" content-position="left" class="x-line">New Products</el-divider>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3" v-for="item in productData" :key="item.Id">
@@ -141,7 +169,7 @@
 			//查看商品详情
 			viewDetails(id) {
 				this.$router.push({
-					path: '/details',
+					path: '/detail',
 					query: {
 						id: id
 					}
