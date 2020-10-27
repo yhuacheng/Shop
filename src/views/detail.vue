@@ -11,9 +11,13 @@
 				<div class="productViewTitle">{{productInfo.name}}</div>
 				<el-row :gutter="30">
 					<el-col :xs="24" :sm="14">
-						<div style="border: 1px dashed #DDDDDD;padding: 15px;margin: 15px 0;">
+						<div class="productViewCon">
 							<div class="productView">
-								<span>stock:</span>
+								<span>Level:</span>
+								<span class="danger">{{productInfo.level}}</span>
+							</div>
+							<div class="productView">
+								<span>Stock:</span>
 								<span class="success">{{productInfo.num}}</span>
 							</div>
 							<div class="productView">
@@ -21,18 +25,17 @@
 								<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
 								<el-tag type="danger" size="medium">{{productInfo.discount-100}}%</el-tag>
 								<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
+								<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}} Points</span>
 							</div>
 							<div class="productView">
-								<span>You can get:</span>
-								<span v-if="productInfo.disType=='1'" class="warning">Discount</span>
-								<span v-if="productInfo.disType=='2'" class="warning">Freebies</span>
-								<span v-if="productInfo.disType=='3'" class="warning">Earn {{productInfo.integral}} Points</span>
-								<span v-if="productInfo.disType=='4'" class="warning">Earn {{productInfo.commission}} Commission</span>
+								<span v-if="productInfo.disType=='4'" class="warning">You will get {{productInfo.commission}} commission</span>
 							</div>
 						</div>
 						<div class="productView">
 							<el-button v-if="!userId" type="warning" round class="w100 mt20" @click="goToLogin">Login to request this review</el-button>
-							<el-button v-if="userId" type="warning" round class="w100 mt20">Review Request</el-button>
+							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
+							<el-button v-if="userId" :disabled="viewInfoBtn" type="warning" round class="w100 mt10" @click="checkBuy">Review
+								Request</el-button>
 						</div>
 					</el-col>
 					<el-col :xs="24" :sm="10">
@@ -89,7 +92,7 @@
 							<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
 						</div>
 						<div v-if="item.DiscountsTypeId=='3'">
-							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Integral}} Points</el-button>
+							<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
 						</div>
 						<div v-if="item.DiscountsTypeId=='4'">
 							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} Commission</el-button>
@@ -98,13 +101,48 @@
 				</el-card>
 			</el-col>
 		</el-row>
+
+		<!-- 购买信息弹窗 -->
+		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :before-close="closeModal"
+		 width="90%">
+			<el-form :model="buyForm" :rules="rules" ref="buyForm" class="warning">
+				<el-form-item label="Product Name：">
+					<span>{{buyForm.productName}}</span>
+				</el-form-item>
+				<el-form-item label="Shop Name：">
+					<span>{{buyForm.shopName}}</span>
+				</el-form-item>
+				<el-form-item label="Product Asin：">
+					<span>{{buyForm.asin}}</span>
+				</el-form-item>
+				<el-form-item label="Product KeyWord：">
+					<span>{{buyForm.keyWord}}</span>
+				</el-form-item>
+				<el-form-item label="Product Brand：">
+					<span>{{buyForm.brand}}</span>
+				</el-form-item>
+				<el-form-item label="Product location：">
+					<span>{{buyForm.place}}</span>
+				</el-form-item>
+				<el-form-item label="Amazon order number：" prop="orderNo">
+					<el-input v-model="buyForm.orderNo"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="fillInLater" :loading="btnLoading">Fill in later</el-button>
+				<el-button type="warning" @click="buySubmit" :loading="btnLoading">Submit</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import {
 		productList,
-		contactList
+		contactList,
+		userInfo,
+		checkBuyRule,
+		orderAdd
 	} from '@/api/api'
 
 	export default {
@@ -127,8 +165,32 @@
 					commission: '',
 					description: '',
 					image: '',
-					allImage: []
+					allImage: [],
+					level: ''
 				},
+				tip: false,
+				tipTxt: '',
+				viewInfoBtn: true,
+				buyModal: false,
+				buyModalTitle: '',
+				buyForm: {
+					productName: '',
+					shopName: '',
+					asin: '',
+					keyWord: '',
+					brand: '',
+					place: '',
+					type: '',
+					orderNo: ''
+				},
+				rules: {
+					orderNo: {
+						required: true,
+						message: 'Please enter Amazon order number',
+						trigger: 'blur'
+					}
+				},
+				btnLoading: false,
 				contact: '',
 				productDataOther: []
 			}
@@ -173,6 +235,7 @@
 						_this.productInfo.integral = data[x].Integral
 						_this.productInfo.commission = data[x].Commission
 						_this.productInfo.description = data[x].ProductDescribe
+						_this.productInfo.level = data[x].Grade
 						if (data[x].ProductUrl) {
 							_this.productInfo.image = data[x].ProductUrl
 						}
@@ -181,8 +244,17 @@
 							let arr = all.split(",")
 							_this.productInfo.allImage = arr
 						}
+
+						_this.buyForm.productName = data[x].ProductName
+						_this.buyForm.shopName = data[x].Shop
+						_this.buyForm.keyWord = data[x].KeyWord
+						_this.buyForm.asin = data[x].ASIN
+						_this.buyForm.brand = data[x].Brand
+						_this.buyForm.place = data[x].Place
+						_this.buyForm.type = data[x].Type
 					}
 				}
+				_this.checkLevel(_this.productInfo.level)
 				_this.otherProductData()
 			},
 
@@ -190,6 +262,29 @@
 			changeImg(img) {
 				let _this = this
 				_this.productInfo.image = img
+			},
+
+			//判断账号等级是否高于商品等级(越小等级越高 A>B>C>D>E>F>G)
+			checkLevel(productLevel) {
+				let _this = this
+				let uId = _this.userId
+				if (uId) {
+					let params = {
+						Id: _this.userId
+					}
+					userInfo(params).then(res => {
+						let userLevel = res.result.BuyerGrade
+						_this.tip = userLevel
+						if (userLevel <= productLevel) {
+							_this.viewInfoBtn = false
+							_this.tip = false
+						} else {
+							_this.viewInfoBtn = true
+							_this.tip = true
+							_this.tipTxt = 'Your account level is ' + userLevel + ', so you cannot purchase this product'
+						}
+					}).catch((e) => {})
+				}
 			},
 
 			//你可能喜欢的其他商品
@@ -233,6 +328,74 @@
 				this.$router.push({
 					path: '/login'
 				})
+			},
+
+			//展示购买信息窗口
+			showBuy() {
+				let _this = this
+				_this.buyModalTitle = 'Purchase information of this product'
+				_this.buyModal = true
+			},
+
+			//购买前检测是否满足购买规则
+			checkBuy() {
+				let _this = this
+				let params = {
+					UserId: sessionStorage.getItem('userId'),
+					ProductManageId: _this.$route.query.id,
+					Shop: _this.buyForm.shopName,
+					ASIN: _this.buyForm.asin,
+					Type: _this.buyForm.type
+				}
+				checkBuyRule(params).then(res => {
+					_this.showBuy()
+				}).catch((e) => {})
+			},
+
+			// 购买填写单号提交
+			buySubmit() {
+				let _this = this
+				_this.$refs.buyForm.validate((valid) => {
+					if (valid) {
+						_this.btnLoading = true
+						let params = {
+							Buyer: sessionStorage.getItem('userId'),
+							Id: _this.$route.query.id,
+							AmazonOrder: _this.buyForm.orderNo,
+						}
+						orderAdd(params).then(res => {
+							_this.btnLoading = false
+							_this.closeModal()
+							_this.getProductData()
+						}).catch((e) => {
+							_this.btnLoading = false
+						})
+					}
+				})
+			},
+
+			//稍后填写订单信息
+			fillInLater() {
+				let _this = this
+				_this.btnLoading = true
+				let params = {
+					Buyer: sessionStorage.getItem('userId'),
+					Id: _this.$route.query.id
+				}
+				orderAdd(params).then(res => {
+					_this.btnLoading = true
+					_this.closeModal()
+					_this.$router.push('/order')
+				}).catch((e) => {})
+			},
+
+			//关闭购买窗口
+			closeModal() {
+				let _this = this
+				_this.buyModal = false
+				_this.$refs['buyForm'].resetFields()
+				_this.buyForm.orderNo = ''
+				_this.productDetails()
 			}
 
 		}

@@ -43,9 +43,11 @@
 			<el-divider v-if="productData.length>0" content-position="left" class="x-line">New Products</el-divider>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3" v-for="item in productData" :key="item.Id">
 				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
-					<div class="scale-img">
-						<img class="product-img" :src="$IMGURL+item.ProductUrl">
-					</div>
+					<el-badge :value="item.Grade">
+						<div class="scale-img">
+							<img class="product-img" :src="$IMGURL+item.ProductUrl">
+						</div>
+					</el-badge>
 					<div class="product-line"></div>
 					<div class="product-card-con">
 						<div class="product-title">{{item.ProductName}}</div>
@@ -70,10 +72,10 @@
 							<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
 						</div>
 						<div v-if="item.DiscountsTypeId=='3'">
-							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Integral}} Points</el-button>
+							<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
 						</div>
 						<div v-if="item.DiscountsTypeId=='4'">
-							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} Commission</el-button>
+							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} commission</el-button>
 						</div>
 					</div>
 				</el-card>

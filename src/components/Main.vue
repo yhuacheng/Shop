@@ -10,7 +10,7 @@
 				<el-menu-item index="/home">HOME</el-menu-item>
 				<el-menu-item index="/product/discount">DISCOUNT</el-menu-item>
 				<el-menu-item index="/product/freebies">FREEBIES</el-menu-item>
-				<el-menu-item index="/product/points">EARN POINTS</el-menu-item>
+				<el-menu-item index="/product/points">POINTS FOR</el-menu-item>
 				<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
 				<el-menu-item index="/order">ORDER</el-menu-item>
 				<el-menu-item index="/faq">FAQ</el-menu-item>
@@ -57,8 +57,9 @@
 						<el-menu-item index="/home">HOME</el-menu-item>
 						<el-menu-item index="/product/discount">DISCOUNT</el-menu-item>
 						<el-menu-item index="/product/freebies">FREEBIES</el-menu-item>
-						<el-menu-item index="/product/points">EARN POINTS</el-menu-item>
+						<el-menu-item index="/product/points">POINTS FOR</el-menu-item>
 						<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
+						<el-menu-item index="/order">ORDER</el-menu-item>
 						<el-menu-item index="/faq">FAQ</el-menu-item>
 						<el-menu-item v-if="!userId" index="/login">LogIn / SignUp</el-menu-item>
 						<el-submenu v-if="userId" index="0">

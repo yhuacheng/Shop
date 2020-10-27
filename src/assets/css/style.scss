@@ -423,6 +423,12 @@ body {
 	margin: 15px 0;
 }
 
+.productViewCon{
+	border: 1px dashed #DDDDDD;
+	padding: 15px;
+	margin: 15px 0;
+}
+
 .productView * {
 	vertical-align: middle;
 	margin-right: 15px;
@@ -459,7 +465,7 @@ body {
 
 .step-con{
 	font-size: 14px;
-	margin-top: 10px;
+	margin-top: 15px;
 }
 
 .step-con .item{

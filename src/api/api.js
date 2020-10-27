@@ -27,3 +27,8 @@ export const contactList = (params) => get('/api/CustomerService/GetCustomerServ
 export const noticeList = (params) => get('/api/Notice/GetNotice', params) //系统公告列表
 
 export const userInfo = (params) => post('/api/Login/GetBuyer', params) //个人信息
+
+export const checkBuyRule = (params) => post('/api/Order/AddShoppingCartRule', params) //加入订单前检测是否满足购买规则
+
+export const orderAdd = (params) => post('/api/Login/GetBuyer', params) //订单添加
+export const orderList = (params) => get('/api/ProductManage/GetProductManageList', params) //订单列表
