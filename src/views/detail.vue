@@ -32,10 +32,11 @@
 							</div>
 						</div>
 						<div class="productView">
-							<el-button v-if="!userId" type="warning" round class="w100 mt20" @click="goToLogin">Login to request this review</el-button>
 							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
-							<el-button v-if="userId" :disabled="viewInfoBtn" type="warning" round class="w100 mt10" @click="checkBuy">Review
-								Request</el-button>
+							<el-button v-if="!userId" :disabled="disLogin" type="warning" round class="w100 mt20" @click="goToLogin">
+								Login to request this review</el-button>
+							<el-button v-if="userId" :disabled="disBuy" type="warning" round class="w100 mt10" @click="checkBuy">
+								Review Request</el-button>
 						</div>
 					</el-col>
 					<el-col :xs="24" :sm="10">
@@ -103,7 +104,7 @@
 		</el-row>
 
 		<!-- 购买信息弹窗 -->
-		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :before-close="closeModal"
+		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :before-close="fillInLater"
 		 width="90%">
 			<el-form :model="buyForm" :rules="rules" ref="buyForm" class="warning">
 				<el-form-item label="Product Name：">
@@ -170,7 +171,8 @@
 				},
 				tip: false,
 				tipTxt: '',
-				viewInfoBtn: true,
+				disLogin: true,
+				disBuy: true,
 				buyModal: false,
 				buyModalTitle: '',
 				buyForm: {
@@ -254,7 +256,7 @@
 						_this.buyForm.type = data[x].Type
 					}
 				}
-				_this.checkLevel(_this.productInfo.level)
+				_this.checkStock()
 				_this.otherProductData()
 			},
 
@@ -264,8 +266,24 @@
 				_this.productInfo.image = img
 			},
 
+			//判断是否还有库存
+			checkStock() {
+				let _this = this
+				let stock = _this.productInfo.num
+				if (stock <= 0) {
+					_this.disLogin = true
+					_this.tip = true
+					_this.tipTxt = 'This product is sold out, so you cannot purchase this product'
+				} else {
+					_this.disLogin = false
+					_this.tip = false
+					_this.tipTxt = ''
+					_this.checkLevel()
+				}
+			},
+
 			//判断账号等级是否高于商品等级(越小等级越高 A>B>C>D>E>F>G)
-			checkLevel(productLevel) {
+			checkLevel() {
 				let _this = this
 				let uId = _this.userId
 				if (uId) {
@@ -273,13 +291,14 @@
 						Id: _this.userId
 					}
 					userInfo(params).then(res => {
+						let productLevel = _this.productInfo.level
 						let userLevel = res.result.BuyerGrade
 						_this.tip = userLevel
 						if (userLevel <= productLevel) {
-							_this.viewInfoBtn = false
+							_this.disBuy = false
 							_this.tip = false
 						} else {
-							_this.viewInfoBtn = true
+							_this.disBuy = true
 							_this.tip = true
 							_this.tipTxt = 'Your account level is ' + userLevel + ', so you cannot purchase this product'
 						}
@@ -359,9 +378,9 @@
 					if (valid) {
 						_this.btnLoading = true
 						let params = {
-							Buyer: sessionStorage.getItem('userId'),
-							Id: _this.$route.query.id,
-							AmazonOrder: _this.buyForm.orderNo,
+							UserId: sessionStorage.getItem('userId'),
+							ProductManageId: _this.$route.query.id,
+							AmazonNumber: _this.buyForm.orderNo
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
@@ -379,14 +398,18 @@
 				let _this = this
 				_this.btnLoading = true
 				let params = {
-					Buyer: sessionStorage.getItem('userId'),
-					Id: _this.$route.query.id
+					UserId: sessionStorage.getItem('userId'),
+					ProductManageId: _this.$route.query.id,
+					AmazonNumber: ''
 				}
 				orderAdd(params).then(res => {
 					_this.btnLoading = true
 					_this.closeModal()
+					_this.productDetails()
 					_this.$router.push('/order')
-				}).catch((e) => {})
+				}).catch((e) => {
+					_this.btnLoading = false
+				})
 			},
 
 			//关闭购买窗口
@@ -395,7 +418,6 @@
 				_this.buyModal = false
 				_this.$refs['buyForm'].resetFields()
 				_this.buyForm.orderNo = ''
-				_this.productDetails()
 			}
 
 		}

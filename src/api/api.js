@@ -30,5 +30,8 @@ export const userInfo = (params) => post('/api/Login/GetBuyer', params) //个人
 
 export const checkBuyRule = (params) => post('/api/Order/AddShoppingCartRule', params) //加入订单前检测是否满足购买规则
 
-export const orderAdd = (params) => post('/api/Login/GetBuyer', params) //订单添加
-export const orderList = (params) => get('/api/ProductManage/GetProductManageList', params) //订单列表
+export const orderList = (params) => get('/api/Order/GetOrderList', params) //订单列表
+
+export const orderAdd = (params) => post('/api/Order/AddShoppingCart', params) //订单添加
+
+export const reviewAdd = (params) => post('/api/Order/WriteEvaluate', params) //评论添加
