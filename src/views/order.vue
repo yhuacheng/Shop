@@ -369,7 +369,8 @@
 						let params = {
 							UserId: sessionStorage.getItem('userId'),
 							ProductManageId: _this.infoForm.productId,
-							AmazonNumber: _this.buyForm.orderNo
+							AmazonNumber: _this.buyForm.orderNo,
+							Id: _this.selectId
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false

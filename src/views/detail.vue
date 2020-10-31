@@ -380,7 +380,8 @@
 						let params = {
 							UserId: sessionStorage.getItem('userId'),
 							ProductManageId: _this.$route.query.id,
-							AmazonNumber: _this.buyForm.orderNo
+							AmazonNumber: _this.buyForm.orderNo,
+							Id: 0
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
@@ -400,7 +401,8 @@
 				let params = {
 					UserId: sessionStorage.getItem('userId'),
 					ProductManageId: _this.$route.query.id,
-					AmazonNumber: ''
+					AmazonNumber: '',
+					Id: 0
 				}
 				orderAdd(params).then(res => {
 					_this.btnLoading = true
