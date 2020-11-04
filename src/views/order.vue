@@ -15,7 +15,7 @@
 								<el-option value="-1" label="Waiting to fill in the Amazon order number"></el-option>
 								<el-option value="1" label="Waiting for review of Amazon order number"></el-option>
 								<el-option value="2" label="Waiting to fill in the Amazon order review"></el-option>
-								<el-option value="3" label="Waiting for rebate"></el-option>
+								<el-option value="3" label="Waiting for review of Amazon order evaluation"></el-option>
 								<el-option value="4" label="Finished"></el-option>
 								<el-option value="5" label="Fail"></el-option>
 								<el-option value="-2" label="Cancelled"></el-option>
@@ -61,16 +61,17 @@
 						<img style="width: 40px;height: 40px;" v-if="scope.row.CommontImage" :src="scope.row.CommontImage" @click.stop="showImage(scope.row.CommontImage)" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="State" label="Order Status" align="center" width="280">
+				<el-table-column prop="State" label="Order Status" align="center" width="300" :show-overflow-tooltip='true'>
 					<template slot-scope="scope">
 						<el-tag size="small" type="info" v-if="scope.row.State==-1">Waiting to fill in the Amazon order number</el-tag>
 						<el-tag size="small" type="warning" v-if="scope.row.State==1">Waiting for review of Amazon order number</el-tag>
 						<el-tag size="small" type="warning" v-if="scope.row.State==2">Waiting to fill in the Amazon order review</el-tag>
-						<el-tag size="small" type="warning" v-if="scope.row.State==3">Waiting for rebate</el-tag>
+						<el-tag size="small" type="warning" v-if="scope.row.State==3">Waiting for review of Amazon order evaluation</el-tag>
 						<el-tag size="small" type="success" v-if="scope.row.State==4">Finished</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==5">Fail</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==-2">Cancelled</el-tag>
-						<div class="danger" v-if="scope.row.state==5 && scope.row.Remark">{{Remark}}</div>
+						<br>
+						<span class="danger" v-if="scope.row.State==5 && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="Function Button" align="center" width="260">
@@ -162,7 +163,7 @@
 						<el-button size="mini" type="warning">Click upload</el-button>
 						<span class="info ml10">Only jpg/png/gif can be uploaded, and each one can't exceed 5M</span>
 					</el-upload>
-					<el-input v-model="reviewForm.img"></el-input>
+					<el-input v-show="false" v-model="reviewForm.img"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
