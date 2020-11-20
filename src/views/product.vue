@@ -109,7 +109,7 @@
 				let _this = this
 				let cId = localStorage.getItem('cId')
 				let type = _this.$route.params.type
-				let typev = 1
+				let typev = 0
 				if (type == 'discount') {
 					typev = 1
 				}

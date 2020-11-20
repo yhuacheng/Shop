@@ -156,6 +156,29 @@ body {
 	top: -2px;
 }
 
+.contact-box{
+	display: flex;
+	justify-content: center;
+	padding: 20px 0;
+	border-top: 1px solid #DDDDDD;
+	.icon-img{
+		width: 50px;
+		cursor: pointer;
+	}
+}
+
+.pc-search{
+	line-height: 60px;
+	.search-input{
+		width: 20%;
+		margin-left: 30px;
+	}
+}
+
+.mb-search{
+	padding: 15px;
+}
+
 // home
 .x-line.el-divider--horizontal {
 	margin-top: 40px;

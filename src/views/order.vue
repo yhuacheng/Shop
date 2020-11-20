@@ -38,7 +38,7 @@
 				<el-table-column prop="ProductUrl" label="Product Image" align="center">
 					<template slot-scope="scope">
 						<img style="width: 40px;height: 40px;" v-if="scope.row.ProductUrl" :src="$IMGURL+scope.row.ProductUrl"
-						 @click.stop="showImage($IMGURL+scope.row.CommontImage)" />
+						 @click.stop="showImage($IMGURL+scope.row.ProductUrl)" />
 					</template>
 				</el-table-column>
 				<el-table-column prop="ProductName" label="Product Name" align="center" :show-overflow-tooltip='true'></el-table-column>

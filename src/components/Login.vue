@@ -418,14 +418,14 @@
 
 			// 个人资料图片上传
 			handleAddChange(file, fileList) {
-				let fileType = file.name.substring(file.name.lastIndexOf(".") + 1)
+				let fileType = file.name.substring(file.name.lastIndexOf(".") + 1).toLowerCase()
 				const isJPG = fileType === 'jpg';
 				const isJPEG = fileType === 'jpeg';
 				const isPNG = fileType === 'png';
 				const isGIF = fileType === 'gif';
 				const isBMP = fileType === 'bmp';
 				const isLt5M = file.size / 1024 / 1024 < 5;
-				if (!isJPG && !isPNG && !isGIF && !isBMP) {
+				if (!isJPG && !isJPEG && !isPNG && !isGIF && !isBMP) {
 					this.$message.error('Picture format must be jpg/jpeg/png/gif/bmp');
 					fileList.splice(-1, 1);
 				} else if (!isLt5M) {

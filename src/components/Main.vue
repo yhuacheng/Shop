@@ -14,6 +14,13 @@
 				<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
 				<el-menu-item index="/order">ORDER</el-menu-item>
 				<el-menu-item index="/faq">FAQ</el-menu-item>
+
+				<span class="pc-search">
+					<el-input placeholder="Search All Products" v-model="search" class="search-input">
+						<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
+					</el-input>
+				</span>
+
 				<el-dropdown class="f-r" @command="handleCommand">
 					<el-button class="country-btn">
 						<img class="country-img" :src="countryImg">
@@ -67,6 +74,13 @@
 							<el-menu-item index="/userInfo">Personal information</el-menu-item>
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
+
+						<div class="mb-search">
+							<el-input placeholder="Search All Products" v-model="search">
+								<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
+							</el-input>
+						</div>
+
 					</div>
 				</transition>
 			</el-menu>
@@ -78,6 +92,12 @@
 			</el-main>
 			<!-- <el-aside class="hidden-md-and-down">Aside</el-aside> -->
 		</el-container>
+
+		<div class="contact-box">
+			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-facebook.png" /></div>
+			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></div>
+			<div><a href="mailto:123456@qq.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
+		</div>
 
 		<el-footer>2020-2030 © Copyright By Amz-Buy</el-footer>
 
@@ -98,7 +118,8 @@
 				userName: sessionStorage.getItem('userName'),
 				countryName: localStorage.getItem('cName'),
 				countryImg: require('@/assets/image/' + localStorage.getItem('cName') + '.png'),
-				countryData: []
+				countryData: [],
+				search: ''
 			}
 		},
 
@@ -113,6 +134,16 @@
 		},
 
 		methods: {
+			//搜索商品
+			productSearch() {
+				this.$router.push({
+					path: '/product/all',
+					query: {
+						name: this.search
+					}
+				})
+			},
+
 			//退出
 			loginOut() {
 				sessionStorage.clear()
@@ -144,7 +175,6 @@
 				this.$router.push('/home')
 				window.location.reload()
 			}
-
 		}
 	}
 </script>
