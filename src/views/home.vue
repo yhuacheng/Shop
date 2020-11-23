@@ -15,70 +15,90 @@
 		<el-row class="step-box">
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title"><i class="el-icon-document-checked"></i>AUDIT >>></span></div>
+					<div class="title">
+						<div><img src="../assets/image/process_1.png"></div>
+						<div>AUDIT >>></div>
+					</div>
 					<div class="text">Click the 'Review Request' button and Waiting for audit</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title"><i class="el-icon-shopping-cart-2"></i>CONFIRMATION >>></div>
+					<div class="title">
+						<div><img src="../assets/image/process_2.png"></div>
+						<div>CONFIRMATION >>></div>
+					</div>
 					<div class="text">Get seller confirmation and buy on Amazon within 7 days</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title"><i class="el-icon-circle-check"></i>APPROVED >>></div>
+					<div class="title">
+						<div><img src="../assets/image/process_3.png"></div>
+						<div>APPROVED >>></div>
+					</div>
 					<div class="text">Fill in Amazon order info and approved by the system</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title"><i class="el-icon-bank-card"></i>CASHBACK</div>
+					<div class="title">
+						<div><img src="../assets/image/process_4.png"></div>
+						<div>CASHBACK</div>
+					</div>
 					<div class="text">Get the refund to your PayPal account</div>
 				</div>
 			</el-col>
 		</el-row>
 
-		<el-row :gutter="30">
-			<el-divider v-if="productData.length>0" content-position="left" class="x-line">New Products</el-divider>
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3" v-for="item in productData" :key="item.Id">
-				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
-					<el-badge :value="item.Grade">
-						<div class="scale-img">
-							<img class="product-img" :src="$IMGURL+item.ProductUrl">
-						</div>
-					</el-badge>
-					<div class="product-line"></div>
-					<div class="product-card-con">
-						<div class="product-title">{{item.ProductName}}</div>
-						<div class="product-price">
-							<div class="fz14 text-line-x info">{{item.Currency}}{{item.Price}}</div>
-							<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
-							<div class="warning fz16">{{item.Currency}}{{item.PresentPrice}}</div>
-						</div>
-						<div class="product-bottom">
-							<div>
-								<span class="info">stock:</span>
-								<span class="fz18 success">{{item.Number}}</span>
+		<el-row :gutter="40">
+			<el-col :xs="24" :md="18">
+				<el-divider v-if="productData.length>0" content-position="left" class="x-line">New Products</el-divider>
+				<el-row :gutter="30">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productData" :key="item.Id">
+						<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-badge :value="item.Grade">
+								<div class="scale-img">
+									<img class="product-img" :src="$IMGURL+item.ProductUrl">
+								</div>
+							</el-badge>
+							<div class="product-line"></div>
+							<div class="product-card-con">
+								<div class="product-title">{{item.ProductName}}</div>
+								<div class="product-price">
+									<div class="fz14 text-line-x info">{{item.Currency}}{{item.Price}}</div>
+									<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
+									<div class="warning fz16">{{item.Currency}}{{item.PresentPrice}}</div>
+								</div>
+								<div class="product-bottom">
+									<div>
+										<span class="info">stock:</span>
+										<span class="fz18 success">{{item.Number}}</span>
+									</div>
+									<div>
+										<el-button type="text" class="button">View details</el-button>
+									</div>
+								</div>
+								<div v-if="item.DiscountsTypeId=='1'">
+									<el-button type="warning" size="mini" class="w100" plain>Discount</el-button>
+								</div>
+								<div v-if="item.DiscountsTypeId=='2'">
+									<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
+								</div>
+								<div v-if="item.DiscountsTypeId=='3'">
+									<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
+								</div>
+								<div v-if="item.DiscountsTypeId=='4'">
+									<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} commission</el-button>
+								</div>
 							</div>
-							<div>
-								<el-button type="text" class="button">View details</el-button>
-							</div>
-						</div>
-						<div v-if="item.DiscountsTypeId=='1'">
-							<el-button type="warning" size="mini" class="w100" plain>Discount</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='2'">
-							<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='3'">
-							<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='4'">
-							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} commission</el-button>
-						</div>
-					</div>
-				</el-card>
+						</el-card>
+					</el-col>
+				</el-row>
+			</el-col>
+
+			<el-col :xs="24" :md="6">
+				<HotProduct></HotProduct>
 			</el-col>
 		</el-row>
 	</div>
@@ -86,6 +106,7 @@
 
 <script>
 	import ScrollText from '@/components/ScrollText.vue'
+	import HotProduct from '@/components/HotProduct.vue'
 
 	import {
 		bannerList,
@@ -104,7 +125,8 @@
 			}
 		},
 		components: {
-			ScrollText
+			ScrollText,
+			HotProduct
 		},
 		created() {
 			this.getNoticeData()
@@ -161,7 +183,7 @@
 					productTypeId: 0,
 					TradeName: '',
 					pageIndex: 1,
-					pageSize: 16
+					pageSize: 24
 				}
 				productList(params).then(res => {
 					_this.productData = res.result.Entity

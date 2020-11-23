@@ -53,7 +53,7 @@
 						<span>{{scope.row.Commission}} {{scope.row.Currency}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="AddTime" label="Order Time" align="center"></el-table-column>
+				<el-table-column prop="AddTime" label="Order Time" align="center" width="150"></el-table-column>
 				<el-table-column prop="AmazonNumber" label="Amazon Number" align="center"></el-table-column>
 				<el-table-column prop="CommontLink" label="Review link" align="center" :show-overflow-tooltip='true'></el-table-column>
 				<el-table-column prop="CommontImage" label="Review Image" align="center">
@@ -74,9 +74,11 @@
 						<span class="danger" v-if="scope.row.State==5 && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
 					</template>
 				</el-table-column>
+				<el-table-column prop="Overtime" :formatter="timeFormat" label="Overtime Status" align="center"></el-table-column>
 				<el-table-column label="Function Button" align="center" width="260">
 					<template v-slot="scope">
-						<el-button size="small" type="primary" v-if="scope.row.State==-1" @click="handleBuy(scope.$index, scope.row)">Fill
+						<el-button size="small" type="primary" v-if="scope.row.State==-1" :disabled="scope.row.State==-1&&scope.row.Overtime<=0"
+						 @click="handleBuy(scope.$index, scope.row)">Fill
 							in the Amazon order number</el-button>
 						<el-button size="small" type="warning" v-if="scope.row.State==2" @click="handleReview(scope.$index, scope.row)">Fill
 							in the Amazon order review</el-button>
@@ -252,14 +254,61 @@
 					}
 				},
 				ViewImageModal: false,
-				ViewImageUrl: ''
+				ViewImageUrl: '',
+				timer: ''
 			}
+		},
+		destroyed() {
+			clearInterval(this.timer)
 		},
 		created() {
 			this.getOrderData()
 			this.getProductData()
 		},
 		methods: {
+			// 订单剩余有效时间倒计时
+			init() {
+				this.timer = setInterval(() => {
+					this.tableData.forEach((item, idx) => {
+						item.Overtime = item.Overtime <= 0 ? 0 : item.Overtime - 1
+					})
+					if (this.tableData.every(item => item.Overtime == 0)) {
+						clearInterval(this.timer)
+					}
+				}, 1000)
+			},
+
+			// 剩余时间转换（秒转时分秒）
+			timeFormat(row, column) {
+				let state = row.State
+				let s = row.Overtime
+				if (state === -1) {
+					let day = Math.floor(s / (24 * 3600)); // Math.floor()向下取整
+					let hour = Math.floor((s - day * 24 * 3600) / 3600);
+					let minute = Math.floor((s - day * 24 * 3600 - hour * 3600) / 60);
+					let second = s - day * 24 * 3600 - hour * 3600 - minute * 60;
+					if (hour) {
+						return hour + ":" + minute + ":" + second;
+					} else {
+						if (second > 0) {
+							if (second < 10) {
+								if (minute < 10) {
+									return "0" + minute + ":" + second + "0";
+								} else {
+									return minute + ":" + second + "0";
+								}
+							} else {
+								return minute + ":" + second;
+							}
+						} else {
+							return 'Timeout'
+						}
+					}
+				} else {
+					return 'Valid'
+				}
+			},
+
 			// 获取订单列表数据
 			getOrderData() {
 				let _this = this
@@ -275,6 +324,8 @@
 					_this.listLoading = false
 					_this.tableData = res.result.Entity
 					_this.total = Number(res.result.TotalCount)
+					//执行倒计时
+					_this.init()
 				}).catch((e) => {})
 			},
 

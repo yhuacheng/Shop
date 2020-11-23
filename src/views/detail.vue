@@ -42,18 +42,31 @@
 					<el-col :xs="24" :sm="10">
 						<div class="step-con">
 							<div class="item title">For this products, follow the steps as below</div>
-							<div class="item"><i class="el-icon-document-checked"></i> Click the ‘Review Request’button and Waiting for
-								audit</div>
-							<div class="item"><i class="el-icon-shopping-cart-2"></i> Get seller confirmation and buy on Amazon within 7
-								days</div>
-							<div class="item"><i class="el-icon-circle-check"></i> Fill in Amazon order info and approved by the system</div>
-							<div class="item"><i class="el-icon-bank-card"></i> Get the refund to your PayPal account</div>
+							<div class="item">
+								<div><img src="../assets/image/process_1.png"></div>
+								<div>Click the ‘Review Request’button and Waiting foraudit</div>
+							</div>
+							<div class="item">
+								<div><img src="../assets/image/process_2.png"></div>
+								<div>Get seller confirmation and buy on Amazon within 7 days</div>
+							</div>
+							<div class="item">
+								<div><img src="../assets/image/process_3.png"></div>
+								<div>Fill in Amazon order info and approved by the system</div>
+							</div>
+							<div class="item">
+								<div><img src="../assets/image/process_4.png"></div>
+								<div>Get the refund to your PayPal account</div>
+							</div>
 						</div>
 					</el-col>
 				</el-row>
 				<el-row>
 					<el-col :span="24">
-						<div v-if="contact" class="contact" v-html="contact"></div>
+						<div class="contact">
+							<div class="icon"><i class="el-icon-phone-outline"></i></div>
+							<div v-if="contact" v-html="contact"></div>
+						</div>
 					</el-col>
 				</el-row>
 			</el-col>

@@ -90,13 +90,18 @@
 			<el-main>
 				<router-view :key="$route.fullPath"></router-view>
 			</el-main>
-			<!-- <el-aside class="hidden-md-and-down">Aside</el-aside> -->
 		</el-container>
 
 		<div class="contact-box">
 			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-facebook.png" /></div>
 			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></div>
-			<div><a href="mailto:123456@qq.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
+			<div class="mr30"><a href="mailto:123456@qq.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
+			<div>
+				<el-popover placement="top-start" width="200" trigger="hover">
+					<div class="popover-content" v-html="contact"></div>
+					<el-button round slot="reference">Contact us</el-button>
+				</el-popover>
+			</div>
 		</div>
 
 		<el-footer>2020-2030 © Copyright By Amz-Buy</el-footer>
@@ -106,7 +111,8 @@
 
 <script>
 	import {
-		countryList
+		countryList,
+		contactList
 	} from '@/api/api'
 
 	export default {
@@ -119,7 +125,8 @@
 				countryName: localStorage.getItem('cName'),
 				countryImg: require('@/assets/image/' + localStorage.getItem('cName') + '.png'),
 				countryData: [],
-				search: ''
+				search: '',
+				contact: '',
 			}
 		},
 
@@ -130,7 +137,8 @@
 		},
 
 		created() {
-			this.getCountryData()
+			this.getCountryData(),
+				this.getContactData()
 		},
 
 		methods: {
@@ -139,9 +147,22 @@
 				this.$router.push({
 					path: '/product/all',
 					query: {
-						name: this.search
+						keywords: this.search
 					}
 				})
+				this.search = ''
+			},
+
+			//获取联系方式
+			getContactData() {
+				let _this = this
+				let cId = localStorage.getItem('cId')
+				let params = {
+					CountryId: cId
+				}
+				contactList(params).then(res => {
+					_this.contact = res.result.Contact
+				}).catch((e) => {})
 			},
 
 			//退出
