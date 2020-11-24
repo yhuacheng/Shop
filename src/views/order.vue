@@ -54,11 +54,17 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="AddTime" label="Order Time" align="center" width="150"></el-table-column>
-				<el-table-column prop="AmazonNumber" label="Amazon Number" align="center"></el-table-column>
+				<el-table-column prop="AmazonNumber" label="Amazon Number" align="center" width="150"></el-table-column>
 				<el-table-column prop="CommontLink" label="Review link" align="center" :show-overflow-tooltip='true'></el-table-column>
 				<el-table-column prop="CommontImage" label="Review Image" align="center">
 					<template slot-scope="scope">
 						<img style="width: 40px;height: 40px;" v-if="scope.row.CommontImage" :src="scope.row.CommontImage" @click.stop="showImage(scope.row.CommontImage)" />
+					</template>
+				</el-table-column>
+				<el-table-column prop="FKImage" label="Refund Image" align="center" width="150">
+					<template slot-scope="scope">
+						<img style="width: 40px;height: 40px;margin-right: 2px;" v-for="item in scope.row.FKImage" v-if="item" :src="$IMGURL+item"
+						 @click.stop="showImage($IMGURL+item)" />
 					</template>
 				</el-table-column>
 				<el-table-column prop="State" label="Order Status" align="center" width="300" :show-overflow-tooltip='true'>
@@ -308,6 +314,9 @@
 				orderList(params).then(res => {
 					_this.listLoading = false
 					_this.tableData = res.result.Entity
+					_this.tableData.forEach((item, idx) => {
+						item.FKImage = item.BuyImage ? item.BuyImage.split(',') : []
+					})
 					_this.total = Number(res.result.TotalCount)
 					//执行倒计时
 					_this.init()
