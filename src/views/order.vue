@@ -74,7 +74,6 @@
 						<span class="danger" v-if="scope.row.State==5 && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
 					</template>
 				</el-table-column>
-				<el-table-column prop="Overtime" :formatter="timeFormat" label="Overtime Status" align="center"></el-table-column>
 				<el-table-column label="Function Button" align="center" width="260">
 					<template v-slot="scope">
 						<el-button size="small" type="primary" v-if="scope.row.State==-1" :disabled="scope.row.State==-1&&scope.row.Overtime<=0"
@@ -82,6 +81,9 @@
 							in the Amazon order number</el-button>
 						<el-button size="small" type="warning" v-if="scope.row.State==2" @click="handleReview(scope.$index, scope.row)">Fill
 							in the Amazon order review</el-button>
+						<br>
+						<span class="danger" v-if="scope.row.Overtime>0">{{scope.row.SYtime}}</span>
+						<span class="info" v-if="scope.row.Overtime<=0 && scope.row.State==-1">TimeOut</span>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -271,6 +273,7 @@
 				this.timer = setInterval(() => {
 					this.tableData.forEach((item, idx) => {
 						item.Overtime = item.Overtime <= 0 ? 0 : item.Overtime - 1
+						item.SYtime = this.formatSeconds(item.Overtime)
 					})
 					if (this.tableData.every(item => item.Overtime == 0)) {
 						clearInterval(this.timer)
@@ -279,34 +282,16 @@
 			},
 
 			// 剩余时间转换（秒转时分秒）
-			timeFormat(row, column) {
-				let state = row.State
-				let s = row.Overtime
-				if (state === -1) {
-					let day = Math.floor(s / (24 * 3600)); // Math.floor()向下取整
-					let hour = Math.floor((s - day * 24 * 3600) / 3600);
-					let minute = Math.floor((s - day * 24 * 3600 - hour * 3600) / 60);
-					let second = s - day * 24 * 3600 - hour * 3600 - minute * 60;
-					if (hour) {
-						return hour + ":" + minute + ":" + second;
-					} else {
-						if (second > 0) {
-							if (second < 10) {
-								if (minute < 10) {
-									return "0" + minute + ":" + second + "0";
-								} else {
-									return minute + ":" + second + "0";
-								}
-							} else {
-								return minute + ":" + second;
-							}
-						} else {
-							return 'Timeout'
-						}
-					}
-				} else {
-					return 'Valid'
-				}
+			formatSeconds(value) {
+				let result = parseInt(value)
+				let h = Math.floor(result / 3600) < 10 ? '0' + Math.floor(result / 3600) : Math.floor(result / 3600);
+				let m = Math.floor((result / 60 % 60)) < 10 ? '0' + Math.floor((result / 60 % 60)) : Math.floor((result / 60 % 60));
+				let s = Math.floor((result % 60)) < 10 ? '0' + Math.floor((result % 60)) : Math.floor((result % 60));
+				let res = '';
+				if (h !== '00') res += `${h}:`;
+				if (m !== '00') res += `${m}:`;
+				res += `${s}`;
+				return res;
 			},
 
 			// 获取订单列表数据

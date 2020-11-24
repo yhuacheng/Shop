@@ -135,9 +135,10 @@
 		},
 		mounted() {
 			// 处理banner图片高度自适应问题
-			this.bannerLoad()
+			let _this = this
+			_this.bannerLoad()
 			window.addEventListener('resize', () => {
-				this.bannerHeight = this.$refs.bannerHeight[0].height
+				_this.bannerHeight = _this.$refs.bannerHeight[0].height
 			}, false)
 		},
 		methods: {

@@ -14,13 +14,11 @@
 				<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
 				<el-menu-item index="/order">ORDER</el-menu-item>
 				<el-menu-item index="/faq">FAQ</el-menu-item>
-
 				<span class="pc-search">
 					<el-input placeholder="Search All Products" v-model="search" class="search-input">
 						<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
 					</el-input>
 				</span>
-
 				<el-dropdown class="f-r" @command="handleCommand">
 					<el-button class="country-btn">
 						<img class="country-img" :src="countryImg">
@@ -74,13 +72,11 @@
 							<el-menu-item index="/userInfo">Personal information</el-menu-item>
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
-
 						<div class="mb-search">
 							<el-input placeholder="Search All Products" v-model="search">
 								<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
 							</el-input>
 						</div>
-
 					</div>
 				</transition>
 			</el-menu>
@@ -107,6 +103,7 @@
 		<el-footer>2020-2030 © Copyright By Amz-Buy</el-footer>
 
 	</el-container>
+
 </template>
 
 <script>
