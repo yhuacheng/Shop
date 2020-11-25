@@ -66,6 +66,14 @@ export default new Router({
 					}
 				},
 				{
+					path: '/faq',
+					name: 'faq',
+					component: resolve => require(['./views/faq.vue'], resolve),
+					meta: {
+						title: 'FAQ'
+					}
+				},
+				{
 					path: '/userInfo',
 					name: 'userInfo',
 					component: resolve => require(['./views/userInfo.vue'], resolve),

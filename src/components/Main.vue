@@ -34,7 +34,7 @@
 				<el-menu-item v-if="!userId" index="/login" class="f-r">LogIn / SignUp</el-menu-item>
 				<el-submenu v-if="userId" index="0" class="f-r">
 					<template slot="title"><i class="el-icon-s-custom user-icon"></i>{{userName}}</template>
-					<el-menu-item index="/userInfo">Personal information</el-menu-item>
+					<el-menu-item index="/userInfo">User Profile</el-menu-item>
 					<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 				</el-submenu>
 			</el-menu>
@@ -69,7 +69,7 @@
 						<el-menu-item v-if="!userId" index="/login">LogIn / SignUp</el-menu-item>
 						<el-submenu v-if="userId" index="0">
 							<template slot="title"><i class="el-icon-s-custom"></i>{{userName}}</template>
-							<el-menu-item index="/userInfo">Personal information</el-menu-item>
+							<el-menu-item index="/userInfo">User Profile</el-menu-item>
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
 						<div class="mb-search">
@@ -134,8 +134,8 @@
 		},
 
 		created() {
-			this.getCountryData(),
-				this.getContactData()
+			this.getCountryData()
+			this.getContactData()
 		},
 
 		methods: {
