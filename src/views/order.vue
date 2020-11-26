@@ -19,6 +19,7 @@
 								<el-option value="4" label="Finished"></el-option>
 								<el-option value="5" label="Fail"></el-option>
 								<el-option value="-2" label="Cancelled"></el-option>
+								<el-option value="-3" label="Time out"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -76,6 +77,7 @@
 						<el-tag size="small" type="success" v-if="scope.row.State==4">Finished</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==5">Fail</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==-2">Cancelled</el-tag>
+						<el-tag size="small" type="danger" v-if="scope.row.State==-3">Time out</el-tag>
 						<br>
 						<span class="danger" v-if="scope.row.State==5 && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
 					</template>
@@ -83,13 +85,12 @@
 				<el-table-column label="Function Button" align="center" width="260">
 					<template v-slot="scope">
 						<el-button size="small" type="primary" v-if="scope.row.State==-1" :disabled="scope.row.State==-1&&scope.row.Overtime<=0"
-						 @click="handleBuy(scope.$index, scope.row)">Fill
-							in the Amazon order number</el-button>
+						 @click="handleBuy(scope.$index, scope.row)">Fill in the Amazon order number</el-button>
 						<el-button size="small" type="warning" v-if="scope.row.State==2" @click="handleReview(scope.$index, scope.row)">Fill
 							in the Amazon order review</el-button>
 						<br>
-						<span class="danger" v-if="scope.row.Overtime>0">{{scope.row.SYtime}}</span>
-						<span class="info" v-if="scope.row.Overtime<=0 && scope.row.State==-1">TimeOut</span>
+						<span class="danger" v-if="scope.row.Overtime>0 && scope.row.State==-1">{{scope.row.SYtime}}</span>
+						<span class="info" v-if="scope.row.Overtime<=0 && scope.row.State==-1">Time out</span>
 					</template>
 				</el-table-column>
 			</el-table>

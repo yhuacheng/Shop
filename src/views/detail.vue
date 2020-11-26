@@ -35,7 +35,7 @@
 							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
 							<el-button v-if="!userId" :disabled="disLogin" type="warning" round class="w100 mt20" @click="goToLogin">
 								Login to request this review</el-button>
-							<el-button v-if="userId" :disabled="disBuy" type="warning" round class="w100 mt10" @click="checkBuy">
+							<el-button v-if="userId" :disabled="disBuy" type="warning" round class="w100 mt10" :loading="btnLoading" @click="checkBuy">
 								Review Request</el-button>
 						</div>
 					</el-col>
@@ -117,8 +117,7 @@
 		</el-row>
 
 		<!-- 购买信息弹窗 -->
-		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :before-close="fillInLater"
-		 width="90%">
+		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :showClose="false" width="90%">
 			<el-form :model="buyForm" :rules="rules" ref="buyForm" class="warning">
 				<el-form-item label="Product Name：">
 					<span>{{buyForm.productName}}</span>
@@ -207,7 +206,8 @@
 				},
 				btnLoading: false,
 				contact: '',
-				productDataOther: []
+				productDataOther: [],
+				orderId: ''
 			}
 		},
 		created() {
@@ -362,16 +362,10 @@
 				})
 			},
 
-			//展示购买信息窗口
-			showBuy() {
-				let _this = this
-				_this.buyModalTitle = 'Purchase information of this product'
-				_this.buyModal = true
-			},
-
 			//购买前检测是否满足购买规则
 			checkBuy() {
 				let _this = this
+				_this.btnLoading = true
 				let params = {
 					UserId: sessionStorage.getItem('userId'),
 					ProductManageId: _this.$route.query.id,
@@ -380,8 +374,43 @@
 					Type: _this.buyForm.type
 				}
 				checkBuyRule(params).then(res => {
+					_this.addOrder()
+				}).catch((e) => {
+					_this.btnLoading = false
+				})
+			},
+
+			//生成订单
+			addOrder() {
+				let _this = this
+				let params = {
+					UserId: sessionStorage.getItem('userId'),
+					ProductManageId: _this.$route.query.id,
+					AmazonNumber: '',
+					Id: 0
+				}
+				orderAdd(params).then(res => {
+					_this.btnLoading = false
+					_this.orderId = res.code
 					_this.showBuy()
-				}).catch((e) => {})
+				}).catch((e) => {
+					_this.btnLoading = false
+				})
+			},
+
+			//展示购买信息窗口
+			showBuy() {
+				let _this = this
+				_this.buyModalTitle = 'Purchase information of this product'
+				_this.buyModal = true
+			},
+
+			//稍后填写订单信息
+			fillInLater() {
+				let _this = this
+				_this.closeModal()
+				_this.productDetails()
+				_this.$router.push('/order')
 			},
 
 			// 购买填写单号提交
@@ -394,7 +423,7 @@
 							UserId: sessionStorage.getItem('userId'),
 							ProductManageId: _this.$route.query.id,
 							AmazonNumber: _this.buyForm.orderNo,
-							Id: 0
+							Id: _this.orderId
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
@@ -404,26 +433,6 @@
 							_this.btnLoading = false
 						})
 					}
-				})
-			},
-
-			//稍后填写订单信息
-			fillInLater() {
-				let _this = this
-				_this.btnLoading = true
-				let params = {
-					UserId: sessionStorage.getItem('userId'),
-					ProductManageId: _this.$route.query.id,
-					AmazonNumber: '',
-					Id: 0
-				}
-				orderAdd(params).then(res => {
-					_this.btnLoading = true
-					_this.closeModal()
-					_this.productDetails()
-					_this.$router.push('/order')
-				}).catch((e) => {
-					_this.btnLoading = false
 				})
 			},
 
