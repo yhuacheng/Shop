@@ -89,9 +89,9 @@
 		</el-container>
 
 		<div class="contact-box">
-			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-facebook.png" /></div>
-			<div class="mr15"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></div>
-			<div class="mr30"><a href="mailto:123456@qq.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
+			<div class="mr15"><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img" src="../assets/image/f-share-facebook.png" /></a></div>
+			<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></a></div>
+			<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
 			<div>
 				<el-popover placement="top-start" width="200" trigger="hover">
 					<div class="popover-content" v-html="contact"></div>
@@ -100,7 +100,7 @@
 			</div>
 		</div>
 
-		<el-footer>2020-2030 © Copyright By Amz-Buy</el-footer>
+		<el-footer>{{year}} © Copyright By Amz-Buy</el-footer>
 
 	</el-container>
 
@@ -124,6 +124,7 @@
 				countryData: [],
 				search: '',
 				contact: '',
+				year: new Date().getFullYear()
 			}
 		},
 
