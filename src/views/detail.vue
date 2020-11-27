@@ -21,7 +21,7 @@
 								<span class="success">{{productInfo.num}}</span>
 							</div>
 							<div class="productView">
-								<span>Price:</span>
+								<span>Price :</span>
 								<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
 								<el-tag type="danger" size="medium">{{productInfo.discount-100}}%</el-tag>
 								<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
@@ -64,8 +64,7 @@
 				<el-row>
 					<el-col :span="24">
 						<div class="contact">
-							<div class="icon"><i class="el-icon-phone-outline"></i></div>
-							<div v-if="contact" v-html="contact"></div>
+							<div class="w100" v-if="contact" v-html="contact"></div>
 						</div>
 					</el-col>
 				</el-row>
