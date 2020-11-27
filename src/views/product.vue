@@ -65,7 +65,7 @@
 										<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
 									</div>
 									<div v-if="item.DiscountsTypeId=='3'">
-										<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
+										<el-button type="warning" size="mini" class="w100" plain>Need +{{item.Integral}} points to redeem</el-button>
 									</div>
 									<div v-if="item.DiscountsTypeId=='4'">
 										<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} commission</el-button>
