@@ -154,7 +154,8 @@
 		contactList,
 		userInfo,
 		checkBuyRule,
-		orderAdd
+		orderAdd,
+		countryList
 	} from '@/api/api'
 
 	export default {
@@ -180,8 +181,11 @@
 					allImage: [],
 					level: ''
 				},
+				rate: '',
 				tip: false,
 				tipTxt: '',
+				points: '',
+				newPrice: '',
 				disLogin: true,
 				disBuy: true,
 				buyModal: false,
@@ -212,6 +216,7 @@
 		created() {
 			this.getProductData()
 			this.getContactData()
+			this.getRate()
 		},
 		methods: {
 			// 获取商品列表数据
@@ -305,16 +310,39 @@
 					userInfo(params).then(res => {
 						let productLevel = _this.productInfo.level
 						let userLevel = res.result.BuyerGrade
+						_this.points = res.result.BuyerScore
 						_this.tip = userLevel
-						if (userLevel <= productLevel) {
-							_this.disBuy = false
-							_this.tip = false
-						} else {
+						if (userLevel > productLevel) {
 							_this.disBuy = true
 							_this.tip = true
 							_this.tipTxt = 'Your account level is ' + userLevel + ', so you cannot purchase this product'
+						} else {
+							_this.disBuy = false
+							_this.tip = false
+							_this.tipTxt = ''
+							_this.checkPoints()
 						}
 					}).catch((e) => {})
+				}
+			},
+
+			//判断会员积分是否足够，积分不够的部分根据汇率用钱抵扣
+			checkPoints() {
+				let _this = this
+				let integral = _this.productInfo.integral
+				let points = _this.points
+				let rate = _this.rate
+				let req = Number(integral) - Number(points)
+				if (req > 0) {
+					let cha = req / rate
+					let newPrice = Number(Number(_this.productInfo.nowPrice) + Number(cha)).toFixed(2)
+					_this.newPrice = newPrice
+					_this.tip = true
+					_this.tipTxt = "You only have " + points + " points now，if you want this product，you will use " + newPrice + _this
+						.productInfo.currency + " + " + points + " ponits to buy，are you sure？"
+				} else {
+					_this.tip = false
+					_this.tipTxt = ''
 				}
 			},
 
@@ -354,6 +382,21 @@
 				}).catch((e) => {})
 			},
 
+			// 获取国家汇率数据
+			getRate() {
+				let _this = this
+				let cId = localStorage.getItem('cId')
+				let params = {}
+				countryList(params).then(res => {
+					let data = res.result
+					for (let x in data) {
+						if (data[x].Id == cId) {
+							_this.rate = data[x].Rate
+						}
+					}
+				}).catch((e) => {})
+			},
+
 			//前往登录页
 			goToLogin() {
 				this.$router.push({
@@ -382,11 +425,19 @@
 			//生成订单
 			addOrder() {
 				let _this = this
+				let price = _this.productInfo.nowPrice
+				let points = _this.productInfo.integral
+				if (_this.newPrice) {
+					price = _this.newPrice
+					points = _this.points
+				}
 				let params = {
 					UserId: sessionStorage.getItem('userId'),
 					ProductManageId: _this.$route.query.id,
 					AmazonNumber: '',
-					Id: 0
+					Id: 0,
+					Price: price,
+					Points: points
 				}
 				orderAdd(params).then(res => {
 					_this.btnLoading = false
@@ -418,11 +469,19 @@
 				_this.$refs.buyForm.validate((valid) => {
 					if (valid) {
 						_this.btnLoading = true
+						let price = _this.productInfo.nowPrice
+						let points = _this.productInfo.integral
+						if (_this.newPrice) {
+							price = _this.newPrice
+							points = _this.points
+						}
 						let params = {
 							UserId: sessionStorage.getItem('userId'),
 							ProductManageId: _this.$route.query.id,
 							AmazonNumber: _this.buyForm.orderNo,
-							Id: _this.orderId
+							Id: _this.orderId,
+							Price: price,
+							Points: points
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false

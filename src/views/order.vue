@@ -45,13 +45,13 @@
 				<el-table-column prop="ProductName" label="Product Name" align="center" :show-overflow-tooltip='true'></el-table-column>
 				<el-table-column prop="Price" label="Price" align="center">
 					<template slot-scope="scope">
-						<span>{{scope.row.PresentPrice}} {{scope.row.Currency}}</span>
-						<span v-if="scope.row.Integral>0">+{{scope.row.Integral}} Points</span>
+						<span>{{scope.row.BuyTotal}} {{scope.row.Currency}}</span>
+						<span v-if="scope.row.Integral>0"> + {{scope.row.Integral}} Points</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Commission" label="Commission" align="center">
 					<template slot-scope="scope">
-						<span>{{scope.row.Commission}} {{scope.row.Currency}}</span>
+						<span>{{Number(scope.row.Commission)}} {{scope.row.Currency}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="AddTime" label="Order Time" align="center" width="150"></el-table-column>
@@ -229,6 +229,8 @@
 					type: '',
 					orderNo: ''
 				},
+				price: '',
+				points: '',
 				btnLoading: false,
 				buyModal: false,
 				buyModalTitle: '',
@@ -405,6 +407,8 @@
 						_this.infoForm.type = data[x].Type
 					}
 				}
+				_this.price = row.BuyTotal
+				_this.points = row.Integral
 			},
 
 			// 购买填写单号提交
@@ -417,7 +421,9 @@
 							UserId: sessionStorage.getItem('userId'),
 							ProductManageId: _this.infoForm.productId,
 							AmazonNumber: _this.buyForm.orderNo,
-							Id: _this.selectId
+							Id: _this.selectId,
+							Price: _this.price,
+							Points: _this.points
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
