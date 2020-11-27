@@ -43,10 +43,10 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="ProductName" label="Product Name" align="center" :show-overflow-tooltip='true'></el-table-column>
-				<el-table-column prop="Price" label="Price" align="center">
+				<el-table-column prop="BuyTotal" label="Price" align="center">
 					<template slot-scope="scope">
 						<span>{{scope.row.BuyTotal}} {{scope.row.Currency}}</span>
-						<span v-if="scope.row.Integral>0"> + {{scope.row.Integral}} Points</span>
+						<span v-if="scope.row.Integral>0">+{{scope.row.Integral}} Points</span>
 					</template>
 				</el-table-column>
 				<el-table-column prop="Commission" label="Commission" align="center">
