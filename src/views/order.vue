@@ -79,7 +79,7 @@
 						<el-tag size="small" type="danger" v-if="scope.row.State==-2">Cancelled</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==-3">Time out</el-tag>
 						<br>
-						<span class="danger" v-if="scope.row.State==5 && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
+						<span class="danger" v-if="(scope.row.State==5 || scope.row.State==-2 || scope.row.State==-3) && scope.row.Remark">Reason：{{scope.row.Remark}}</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="Function Button" align="center" width="260">
