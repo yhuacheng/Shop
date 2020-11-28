@@ -11,13 +11,13 @@
 				<el-form-item label="Last Name：">
 					<span>{{userData.LastName}}</span>
 				</el-form-item>
-				<el-form-item label="Account level：">
+				<el-form-item label="level：">
 					<span>{{userData.BuyerGrade}}</span>
 				</el-form-item>
 				<el-form-item label="Points：">
 					<span>{{userData.BuyerScore}}</span>
 				</el-form-item>
-				<el-form-item label="PaypalAccount：">
+				<el-form-item label="Paypal：">
 					<span>{{userData.PaypalAccount}}</span>
 				</el-form-item>
 				<el-form-item label="ProfileUrl：">
@@ -69,7 +69,9 @@
 					</el-card>
 				</el-col>
 			</el-row>
-			<div><el-button type="warning" round class="f-r mt30" @click="getProductData">Change Next</el-button></div>
+			<div>
+				<el-button type="warning" round class="f-r mt30" @click="getProductData">Change Next</el-button>
+			</div>
 		</div>
 
 	</div>
