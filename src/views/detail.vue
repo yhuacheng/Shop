@@ -332,11 +332,11 @@
 				let integral = _this.productInfo.integral
 				let points = _this.points
 				let rate = _this.rate
-				let req = Number(integral) - Number(points)
+				let req = integral - points
 				if (req > 0) {
 					let cha = req / rate
-					let newPrice = Number(Number(_this.productInfo.nowPrice) + Number(cha)).toFixed(2)
-					_this.newPrice = newPrice
+					let newPrice = Number(_this.productInfo.nowPrice) + Number(cha)
+					_this.newPrice = newPrice.toFixed(2)
 					_this.tip = true
 					_this.tipTxt = "You only have " + points + " points now，if you want this product，you will use " + newPrice + _this
 						.productInfo.currency + " + " + points + " ponits to buy，are you sure？"
