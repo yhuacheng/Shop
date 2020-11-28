@@ -329,14 +329,17 @@
 			//判断会员积分是否足够，积分不够的部分根据汇率用钱抵扣
 			checkPoints() {
 				let _this = this
-				let integral = _this.productInfo.integral
-				let points = _this.points
-				let rate = _this.rate
-				let req = integral - points
+				let integral = _this.productInfo.integral //商品所需积分
+				let points = _this.points //会员剩余积分
+				let rate = _this.rate //货币汇率
+				let req = integral - points //积分差值
+				//如果会员剩余积分不够
 				if (req > 0) {
+					//差值积分转换为当前的币种金额（1积分=1RMB）
 					let cha = req / rate
-					let newPrice = Number(_this.productInfo.nowPrice) + Number(cha)
-					_this.newPrice = newPrice.toFixed(2)
+					//差值金额附加到商品价格上
+					let newPrice = (Number(_this.productInfo.nowPrice) + Number(cha)).toFixed(2)
+					_this.newPrice = newPrice
 					_this.tip = true
 					_this.tipTxt = "You only have " + points + " points now，if you want this product，you will use " + newPrice + _this
 						.productInfo.currency + " + " + points + " ponits to buy，are you sure？"
