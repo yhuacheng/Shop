@@ -93,7 +93,7 @@
 			<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></a></div>
 			<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
 			<div>
-				<el-popover placement="top-start" width="200" trigger="hover">
+				<el-popover placement="top-start" width="320" trigger="hover">
 					<div class="popover-content" v-html="contact"></div>
 					<el-button round slot="reference">Contact us</el-button>
 				</el-popover>

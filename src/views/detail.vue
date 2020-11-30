@@ -124,9 +124,6 @@
 				<el-form-item label="Shop Name：">
 					<span>{{buyForm.shopName}}</span>
 				</el-form-item>
-				<el-form-item label="Product Asin：">
-					<span>{{buyForm.asin}}</span>
-				</el-form-item>
 				<el-form-item label="Product KeyWord：">
 					<span>{{buyForm.keyWord}}</span>
 				</el-form-item>
@@ -462,11 +459,10 @@
 			fillInLater() {
 				let _this = this
 				_this.closeModal()
-				_this.productDetails()
 				_this.$router.push('/order')
 			},
 
-			// 购买填写单号提交
+			// 填写单号提交
 			buySubmit() {
 				let _this = this
 				_this.$refs.buyForm.validate((valid) => {
@@ -489,7 +485,7 @@
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
 							_this.closeModal()
-							_this.getProductData()
+							_this.$router.push('/order')
 						}).catch((e) => {
 							_this.btnLoading = false
 						})
