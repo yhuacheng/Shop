@@ -17,7 +17,8 @@
 								<el-option value="2" label="Waiting to fill in the Amazon order review"></el-option>
 								<el-option value="3" label="Waiting for review Amazon order review"></el-option>
 								<el-option value="4" label="Finished"></el-option>
-								<el-option value="5" label="Fail"></el-option>
+								<el-option value="5" label="Amazon order number audit not passed"></el-option>
+								<el-option value="6" label="Amazon order review audit not passed"></el-option>
 								<el-option value="-2" label="Cancelled"></el-option>
 								<el-option value="-3" label="Time out"></el-option>
 							</el-select>
@@ -77,7 +78,8 @@
 						<el-tag size="small" type="warning" v-if="scope.row.State==2">Waiting to fill in the Amazon order review</el-tag>
 						<el-tag size="small" type="warning" v-if="scope.row.State==3">Waiting for review Amazon order review</el-tag>
 						<el-tag size="small" type="success" v-if="scope.row.State==4">Finished</el-tag>
-						<el-tag size="small" type="danger" v-if="scope.row.State==5">Fail</el-tag>
+						<el-tag size="small" type="danger" v-if="scope.row.State==5">Amazon order number audit not passed</el-tag>
+						<el-tag size="small" type="danger" v-if="scope.row.State==6">Amazon order review audit not passed</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==-2">Cancelled</el-tag>
 						<el-tag size="small" type="danger" v-if="scope.row.State==-3">Time out</el-tag>
 						<br>
@@ -88,12 +90,20 @@
 					<template v-slot="scope">
 						<el-button size="small" type="primary" v-if="scope.row.State==-1" :disabled="scope.row.State==-1&&scope.row.Overtime<=0"
 						 @click="handleBuy(scope.$index, scope.row)">Fill in the Amazon order number</el-button>
-						<el-button size="small" type="primary" v-if="scope.row.State==1" @click="handleBuy(scope.$index, scope.row)">Update
-							the Amazon order number</el-button>
-						<el-button size="small" type="warning" v-if="scope.row.State==2" @click="handleReview(scope.$index, scope.row)">Fill
-							in the Amazon order review</el-button>
+						<el-button size="small" type="primary" v-if="scope.row.State==1 || scope.row.State==5" @click="handleBuy(scope.$index, scope.row)">
+							<span v-if="scope.row.State==1">Update the Amazon order number</span>
+							<span v-if="scope.row.State==5">Fill in the Amazon order number again</span>
+						</el-button>
+						<el-button size="small" type="warning" v-if="scope.row.State==2 || scope.row.State==3 || scope.row.State==6"
+						 @click="handleReview(scope.$index, scope.row)">
+							<span v-if="scope.row.State==2">Fill in the Amazon order review</span>
+							<span v-if="scope.row.State==3">Update the Amazon order review</span>
+							<span v-if="scope.row.State==6">Fill in the Amazon order review again</span>
+						</el-button>
 						<el-button size="small" type="warning" v-if="scope.row.State==3" @click="handleReview(scope.$index, scope.row)">Update
 							the Amazon order review</el-button>
+						<el-button size="small" type="warning" v-if="scope.row.State==6" @click="handleReview(scope.$index, scope.row)">Fill
+							in the Amazon order review again</el-button>
 						<br>
 						<span class="danger" v-if="scope.row.Overtime>0 && scope.row.State==-1">{{scope.row.SYtime}}</span>
 						<span class="info" v-if="scope.row.Overtime<=0 && scope.row.State==-1">Time out</span>
