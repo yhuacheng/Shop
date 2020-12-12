@@ -357,7 +357,18 @@
 					if (data[x].DiscountsTypeId == type && data[x].Id != id)
 						dataOther.push(data[x])
 				}
-				_this.productDataOther = dataOther.slice(0, 11)
+				if (dataOther.length <= 6) {
+					_this.productDataOther = dataOther
+				} else {
+					//如果商品大于6个则随机取出6个不重复的商品
+					let result = [];
+					for (let i = 0; i < 6; i++) {
+						let ran = Math.floor(Math.random() * (dataOther.length - i));
+						result.push(dataOther[ran]);
+						dataOther[ran] = dataOther[dataOther.length - i - 1];
+					}
+					_this.productDataOther = result
+				}
 			},
 
 			//跳转商品详情
