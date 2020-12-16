@@ -4,7 +4,7 @@
 			<!-- pc菜单 -->
 			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#fd5632" text-color="#ffffff"
 			 active-text-color="#ffff00" mode="horizontal" unique-opened router>
-				<el-menu-item style="border: none;">
+				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
 				</el-menu-item>
 				<el-menu-item index="/home">HOME</el-menu-item>
