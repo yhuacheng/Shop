@@ -2,7 +2,7 @@
 	<el-container>
 		<el-header>
 			<!-- pc菜单 -->
-			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#E6A23C" text-color="#ffffff"
+			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#fd5632" text-color="#ffffff"
 			 active-text-color="#ffff00" mode="horizontal" unique-opened router>
 				<el-menu-item style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />

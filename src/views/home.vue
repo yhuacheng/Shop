@@ -184,7 +184,7 @@
 					productTypeId: 0,
 					TradeName: '',
 					pageIndex: 1,
-					pageSize: 24
+					pageSize: 30
 				}
 				productList(params).then(res => {
 					_this.productData = res.result.Entity

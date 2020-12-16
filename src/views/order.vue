@@ -100,10 +100,6 @@
 							<span v-if="scope.row.State==3">Update the Amazon order review</span>
 							<span v-if="scope.row.State==6">Fill in the Amazon order review again</span>
 						</el-button>
-						<el-button size="small" type="warning" v-if="scope.row.State==3" @click="handleReview(scope.$index, scope.row)">Update
-							the Amazon order review</el-button>
-						<el-button size="small" type="warning" v-if="scope.row.State==6" @click="handleReview(scope.$index, scope.row)">Fill
-							in the Amazon order review again</el-button>
 						<br>
 						<span class="danger" v-if="scope.row.Overtime>0 && scope.row.State==-1">{{scope.row.SYtime}}</span>
 						<span class="info" v-if="scope.row.Overtime<=0 && scope.row.State==-1">Time out</span>
