@@ -33,42 +33,26 @@
 					</el-form>
 				</div>
 				<div class="productBox">
-					<el-row :gutter="30">
-						<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productData" :key="item.Id">
+					<el-row :gutter="20">
+						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productData" :key="item.Id">
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<img class="product-img" :src="$IMGURL+item.ProductUrl">
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
 									</div>
 								</el-badge>
+								<div class="product-title">{{item.ProductName}}</div>
 								<div class="product-line"></div>
 								<div class="product-card-con">
-									<div class="product-title">{{item.ProductName}}</div>
+									<div class="infor">
+										<div><span class="info">stock:</span><span class="fz18 orange">{{item.Number}}</span></div>
+										<div>
+											<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
+										</div>
+									</div>
 									<div class="product-price">
-										<div class="fz14 text-line-x info">{{item.Currency}}{{item.Price}}</div>
-										<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
-										<div class="warning fz16">{{item.Currency}}{{item.PresentPrice}}</div>
-									</div>
-									<div class="product-bottom">
-										<div>
-											<span class="info">stock:</span>
-											<span class="fz18 success">{{item.Number}}</span>
-										</div>
-										<div>
-											<el-button type="text" class="button">View details</el-button>
-										</div>
-									</div>
-									<div v-if="item.DiscountsTypeId=='1'">
-										<el-button type="warning" size="mini" class="w100" plain>Discount</el-button>
-									</div>
-									<div v-if="item.DiscountsTypeId=='2'">
-										<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
-									</div>
-									<div v-if="item.DiscountsTypeId=='3'">
-										<el-button type="warning" size="mini" class="w100" plain>Need +{{item.Integral}} points to redeem</el-button>
-									</div>
-									<div v-if="item.DiscountsTypeId=='4'">
-										<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} commission</el-button>
+										<div class="fz16 now-price">{{item.Currency}}{{item.PresentPrice}}</div>
+										<div class="fz14 text-line-x info old-price">{{item.Currency}}{{item.Price}}</div>
 									</div>
 								</div>
 							</el-card>
@@ -85,6 +69,7 @@
 			</el-col>
 
 			<el-col :xs="24" :md="6" class="product-list">
+				<div class="biaoyu">Discover good goods, explore new life</div>
 				<HotProduct></HotProduct>
 			</el-col>
 

@@ -6,7 +6,7 @@
 				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 					<el-badge :value="item.Grade">
 						<div class="scale-img">
-							<img class="product-img" :src="$IMGURL+item.ProductUrl">
+							<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
 						</div>
 					</el-badge>
 					<div class="product-card-con">

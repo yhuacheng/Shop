@@ -20,6 +20,8 @@ export const typeList = (params) => get('/api/ProductManage/GetProductTypeList',
 
 export const productList = (params) => get('/api/ProductManage/GetProductManageList', params) //商品列表
 
+export const formatList = (params) => get('/api/ProductManage/GetSizeColorList', params) //商品规格信息
+
 export const bannerList = (params) => get('/api/Rotation/GetRotationList', params) //轮播图列表
 
 export const contactList = (params) => get('/api/CustomerService/GetCustomerService', params) //联系方式列表

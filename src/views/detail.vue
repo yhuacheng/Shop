@@ -16,20 +16,35 @@
 								<span>Level:</span>
 								<span class="danger">{{productInfo.level}}</span>
 							</div>
-							<div class="productView">
-								<span>Stock:</span>
-								<span class="success">{{productInfo.num}}</span>
-							</div>
-							<div class="productView">
-								<span>Price :</span>
-								<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
-								<el-tag type="danger" size="medium">{{productInfo.discount-100}}%</el-tag>
-								<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
-								<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}} Points</span>
+							<div>
+								<div class="productView">
+									<span>Stock:</span>
+									<span class="success">{{productInfo.num}}</span>
+								</div>
+								<div class="productView">
+									<span class="fz20 text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
+									<el-tag type="danger" size="small">{{productInfo.discount-100}}%</el-tag>
+									<span class="fz20 warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
+									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}} Points</span>
+								</div>
 							</div>
 							<div class="productView">
 								<span v-if="productInfo.disType=='4'" class="warning">You will get {{productInfo.commission}} commission</span>
 							</div>
+						</div>
+						<div class="productViewCon" v-if="colorData.length>0 || sizeData.length>0">
+							<el-form label-width="50px" size="small" class="mt10">
+								<el-form-item label="Color:" v-if="colorData.length>0">
+									<el-radio-group v-model="color" size="mini" @change="selectColor">
+										<el-radio border v-for="(item,index) in colorData" :label="item.id">{{item.name}}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+								<el-form-item label="Size:" v-if="sizeData.length>0">
+									<el-radio-group v-model="size" size="mini" @change="selectSize">
+										<el-radio border v-for="(item,index) in sizeData" :label="item.id">{{item.name}}</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-form>
 						</div>
 						<div class="productView">
 							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
@@ -78,37 +93,23 @@
 			<el-divider v-if="productDataOther.length>0" content-position="left" class="x-line">You May Also Like</el-divider>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productDataOther" :key="item.Id">
 				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
-					<div class="scale-img">
-						<img class="product-img" :src="$IMGURL+item.ProductUrl">
-					</div>
+					<el-badge :value="item.Grade">
+						<div class="scale-img">
+							<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+						</div>
+					</el-badge>
+					<div class="product-title">{{item.ProductName}}</div>
 					<div class="product-line"></div>
 					<div class="product-card-con">
-						<div class="product-title">{{item.ProductName}}</div>
+						<div class="infor">
+							<div><span class="info">stock:</span><span class="fz18 orange">{{item.Number}}</span></div>
+							<div>
+								<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
+							</div>
+						</div>
 						<div class="product-price">
-							<div class="fz14 text-line-x info">{{item.Currency}}{{item.Price}}</div>
-							<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
-							<div class="warning fz16">{{item.Currency}}{{item.PresentPrice}}</div>
-						</div>
-						<div class="product-bottom">
-							<div>
-								<span class="info">stock:</span>
-								<span class="fz18 success">{{item.Number}}</span>
-							</div>
-							<div>
-								<el-button type="text" class="button">View details</el-button>
-							</div>
-						</div>
-						<div v-if="item.DiscountsTypeId=='1'">
-							<el-button type="warning" size="mini" class="w100" plain>Discount</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='2'">
-							<el-button type="warning" size="mini" class="w100" plain>Freebies</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='3'">
-							<el-button type="warning" size="mini" class="w100" plain>Add {{item.Integral}} points to redeem</el-button>
-						</div>
-						<div v-if="item.DiscountsTypeId=='4'">
-							<el-button type="warning" size="mini" class="w100" plain>Earn {{item.Commission}} Commission</el-button>
+							<div class="fz16 now-price">{{item.Currency}}{{item.PresentPrice}}</div>
+							<div class="fz14 text-line-x info old-price">{{item.Currency}}{{item.Price}}</div>
 						</div>
 					</div>
 				</el-card>
@@ -148,6 +149,7 @@
 <script>
 	import {
 		productList,
+		formatList,
 		contactList,
 		userInfo,
 		checkBuyRule,
@@ -161,6 +163,9 @@
 			return {
 				userId: sessionStorage.getItem('userId'),
 				productData: [],
+				formatData: [],
+				colorData: [],
+				sizeData: [],
 				productInfo: {
 					name: '',
 					country: '',
@@ -207,11 +212,39 @@
 				btnLoading: false,
 				contact: '',
 				productDataOther: [],
-				orderId: ''
+				orderId: '',
+				color: '',
+				size: ''
+			}
+		},
+		computed: {
+			//获取库存原价折扣现价
+			pData: function() {
+				let _this = this
+				let data = _this.formatData
+				let colorData = _this.colorData
+				let sizeData = _this.sizeData
+				let colorId = _this.color
+				let sizeId = _this.size
+				let newData = ''
+				//如果只有颜色没有尺码
+				if (colorData.length > 0 && sizeData.length == 0) {
+					newData = data.filter(item => item.ProductColorId == colorId)
+				}
+				//如果只有尺码没有颜色
+				if (sizeData.length > 0 && colorData.length == 0) {
+					newData = data.filter(item => item.ProductSizeId == sizeId)
+				}
+				//如果有颜色有尺码
+				if (colorData.length > 0 && sizeData.length > 0) {
+					newData = data.filter(item => item.ProductColorId == colorId && item.ProductSizeId == sizeId)
+				}
+				return newData
 			}
 		},
 		created() {
 			this.getProductData()
+			this.getFormatData()
 			this.getContactData()
 			this.getRate()
 		},
@@ -260,7 +293,6 @@
 							let arr = all.split(",")
 							_this.productInfo.allImage = arr
 						}
-
 						_this.buyForm.productName = data[x].ProductName
 						_this.buyForm.shopName = data[x].Shop
 						_this.buyForm.keyWord = data[x].KeyWord
@@ -272,6 +304,118 @@
 				}
 				_this.checkStock()
 				_this.otherProductData()
+			},
+
+			// 获取商品规格信息
+			getFormatData() {
+				let _this = this
+				let id = _this.$route.query.id
+				let params = {
+					ProductManageId: id
+				}
+				formatList(params).then(res => {
+					let data = res.result
+					_this.formatData = data
+					//获取颜色数据，尺码数据
+					let color = []
+					let size = []
+					for (let x in data) {
+						color.push({
+							id: data[x].ProductColorId,
+							name: data[x].Color,
+							img: data[x].Picture
+						})
+						size.push({
+							id: data[x].ProductSizeId,
+							name: data[x].Size
+						})
+					}
+					//颜色去重
+					let colorArr = color.filter((x, index, self) => {
+						let colorids = []
+						color.forEach((item, i) => {
+							colorids.push(item.id)
+						})
+						return colorids.indexOf(x.id) === index
+					})
+					_this.colorData = colorArr
+					//尺码去重
+					let sizeArr = size.filter((x, index, self) => {
+						let sizeids = []
+						size.forEach((item, i) => {
+							sizeids.push(item.id)
+						})
+						return sizeids.indexOf(x.id) === index
+					})
+					_this.sizeData = sizeArr
+
+				}).catch((e) => {})
+			},
+
+			//如果有规格替换商品的库存原价折扣现价
+			pInfo() {
+				let _this = this
+				if (_this.pData.length > 0) {
+					_this.productInfo.num = _this.pData[0].SizeColorNumber
+					_this.productInfo.price = _this.pData[0].SizeColorPrice
+					_this.productInfo.discount = _this.pData[0].SizeColorDiscount
+					_this.productInfo.nowPrice = _this.pData[0].SizeColorPresentPrice
+					_this.buyForm.asin = _this.pData[0].SizeColorASIN
+					_this.checkStock()
+				}
+			},
+
+			//选择颜色
+			selectColor() {
+				let _this = this
+				let colorData = _this.colorData
+				let id = _this.color
+				//获取图片地址
+				let url = ''
+				for (let x in colorData) {
+					if (id == colorData[x].id) {
+						url = colorData[x].img
+					}
+				}
+				if (url) {
+					let urlArr = url.split(',')
+					_this.productInfo.allImage = url.split(',')
+					_this.productInfo.image = urlArr[0]
+				}
+				//获取该颜色下的尺码
+				let sizeArry = []
+				let data = _this.formatData
+				for (let y in data) {
+					if (id == data[y].ProductColorId) {
+						sizeArry.push({
+							id: data[y].ProductSizeId,
+							name: data[y].Size
+						})
+					}
+				}
+				_this.sizeData = sizeArry
+				_this.pInfo()
+			},
+
+			//选择尺码
+			selectSize() {
+				let _this = this
+				let sizeData = _this.sizeData
+				let id = _this.size
+				//获取该尺码下的颜色
+				let colorArry = []
+				let data = _this.formatData
+				for (let z in data) {
+					if (id == data[z].ProductSizeId) {
+						colorArry.push({
+							id: data[z].ProductColorId,
+							name: data[z].Color,
+							img: data[z].Picture
+						})
+					}
+				}
+				_this.colorData = colorArry
+				_this.pInfo()
 			},
 
 			// 切换图片
@@ -286,10 +430,12 @@
 				let stock = _this.productInfo.num
 				if (stock <= 0) {
 					_this.disLogin = true
+					_this.disBuy = true
 					_this.tip = true
 					_this.tipTxt = 'This product is sold out, so you cannot purchase this product'
 				} else {
 					_this.disLogin = false
+					_this.disBuy = false
 					_this.tip = false
 					_this.tipTxt = ''
 					_this.checkLevel()
@@ -418,6 +564,14 @@
 			//购买前检测是否满足购买规则
 			checkBuy() {
 				let _this = this
+				if (_this.colorData.length > 0 && !_this.color) {
+					this.$message.error('please choose a color')
+					return false
+				}
+				if (_this.sizeData.length > 0 && !_this.size) {
+					this.$message.error('please choose a size')
+					return false;
+				}
 				_this.btnLoading = true
 				let params = {
 					UserId: sessionStorage.getItem('userId'),

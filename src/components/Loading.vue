@@ -75,7 +75,7 @@
 				let _this = this
 				setTimeout(() => {
 					_this.$router.push('/home')
-				}, 1000)
+				}, 500)
 			}
 
 		}

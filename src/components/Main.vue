@@ -7,7 +7,6 @@
 				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
 				</el-menu-item>
-				<el-menu-item index="/home">HOME</el-menu-item>
 				<el-menu-item index="/product/discount">DISCOUNT</el-menu-item>
 				<el-menu-item index="/product/freebies">FREEBIES</el-menu-item>
 				<el-menu-item index="/product/points">POINTS FOR</el-menu-item>
@@ -15,9 +14,21 @@
 				<el-menu-item index="/order">ORDER</el-menu-item>
 				<el-menu-item index="/faq">FAQ</el-menu-item>
 				<span class="pc-search">
-					<el-input placeholder="Search All Products" v-model="search" class="search-input">
+					<el-input placeholder="Search Products" v-model="search" class="search-input">
+						<el-select v-model="select" slot="prepend" class="search-select">
+							<el-option label="All" value="all"></el-option>
+							<el-option label="Discount" value="discount"></el-option>
+							<el-option label="Freebies" value="freebies"></el-option>
+							<el-option label="Points" value="points"></el-option>
+							<el-option label="Commission" value="commission"></el-option>
+						</el-select>
 						<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
 					</el-input>
+				</span>
+				<span v-if="notice" @click="MessageModal=true">
+					<el-badge value="1" class="item message" type="success">
+						<i class="el-icon-message"></i>
+					</el-badge>
 				</span>
 				<el-dropdown class="f-r" @command="handleCommand">
 					<el-button class="country-btn">
@@ -39,10 +50,17 @@
 				</el-submenu>
 			</el-menu>
 			<!-- 移动端菜单 -->
-			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#E6A23C" text-color="#ffffff"
+			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#fd5632" text-color="#ffffff"
 			 active-text-color="#ffff00" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
+
+					<div v-if="notice" @click.stop="MessageModal=true">
+						<el-badge value="1" class="item message mb-message" type="success">
+							<i class="el-icon-message"></i>
+						</el-badge>
+					</div>
+
 					<el-dropdown class="f-r" @command="handleCommand">
 						<el-button class="country-btn">
 							<img class="country-img" :src="countryImg">
@@ -73,7 +91,14 @@
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
 						<div class="mb-search">
-							<el-input placeholder="Search All Products" v-model="search">
+							<el-input placeholder="Search Products" v-model="search">
+								<el-select v-model="select" slot="prepend" class="search-select">
+									<el-option label="All" value="all"></el-option>
+									<el-option label="Discount" value="discount"></el-option>
+									<el-option label="Freebies" value="freebies"></el-option>
+									<el-option label="Points" value="points"></el-option>
+									<el-option label="Commission" value="commission"></el-option>
+								</el-select>
 								<el-button slot="append" icon="el-icon-search" @click="productSearch"></el-button>
 							</el-input>
 						</div>
@@ -102,6 +127,14 @@
 
 		<el-footer>{{year}} © Copyright By Amz-Buy</el-footer>
 
+		<!-- 公告信息弹窗 -->
+		<el-dialog title="Message" :visible.sync="MessageModal" width="80%">
+			<span v-html="notice"></span>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="MessageModal=false">I know</el-button>
+			</div>
+		</el-dialog>
+
 	</el-container>
 
 </template>
@@ -109,7 +142,8 @@
 <script>
 	import {
 		countryList,
-		contactList
+		contactList,
+		noticeList
 	} from '@/api/api'
 
 	export default {
@@ -123,8 +157,11 @@
 				countryImg: require('@/assets/image/' + localStorage.getItem('cName') + '.png'),
 				countryData: [],
 				search: '',
+				select: 'all',
 				contact: '',
-				year: new Date().getFullYear()
+				year: new Date().getFullYear(),
+				MessageModal: false,
+				notice: ''
 			}
 		},
 
@@ -137,13 +174,16 @@
 		created() {
 			this.getCountryData()
 			this.getContactData()
+			this.getNoticeData()
 		},
 
 		methods: {
 			//搜索商品
 			productSearch() {
+				let _this = this
+				let s = _this.select
 				this.$router.push({
-					path: '/product/all',
+					path: '/product/' + s,
 					query: {
 						keywords: this.search
 					}
@@ -193,6 +233,18 @@
 
 				this.$router.push('/home')
 				window.location.reload()
+			},
+
+			// 获取公告数据
+			getNoticeData() {
+				let _this = this
+				let cId = localStorage.getItem('cId')
+				let params = {
+					CountryId: cId
+				}
+				noticeList(params).then(res => {
+					_this.notice = res.result.Message
+				}).catch((e) => {})
 			}
 		}
 	}
