@@ -37,13 +37,19 @@
 			<el-table border :data="tableData" @selection-change="selsChange" v-loading="listLoading" style="width: 100%" id="tableData"
 			 ref='tableData'>
 				<el-table-column type="index" label="#" align="center"></el-table-column>
-				<el-table-column prop="ProductUrl" label="Product Image" align="center">
+				<el-table-column prop="ImgUrl" label="Image" align="center">
 					<template slot-scope="scope">
-						<img style="width: 40px;height: 40px;" v-if="scope.row.ProductUrl" :src="$IMGURL+scope.row.ProductUrl"
-						 @click.stop="showImage($IMGURL+scope.row.ProductUrl)" />
+						<img style="width: 40px;height: 40px;" v-if="scope.row.ImgUrl" :src="$IMGURL+scope.row.ImgUrl" @click.stop="showImage($IMGURL+scope.row.ImgUrl)" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="ProductName" label="Product Name" align="center" :show-overflow-tooltip='true'></el-table-column>
+				<el-table-column prop="ProductName" label="Product Name" align="center" :show-overflow-tooltip='true'>
+					<template slot-scope="scope">
+						<span>{{scope.row.ProductName}}</span>
+						<br>
+						<span class="info fz12" v-if="scope.row.Color">{{scope.row.Color}}</span>
+						<span class="info fz12 ml10" v-if="scope.row.Size">{{scope.row.Size}}</span>
+					</template>
+				</el-table-column>
 				<el-table-column prop="BuyTotal" label="Price" align="center" width="150">
 					<template slot-scope="scope">
 						<span>{{scope.row.BuyTotal}} {{scope.row.Currency}}</span>
@@ -140,6 +146,10 @@
 					<el-input v-model="buyForm.orderNo"></el-input>
 				</el-form-item>
 			</el-form>
+			<div v-if="contact">
+				<p class="warning">If you encounter problems, you can contact us through the following ways：</p>
+				<div class="w100" v-html="contact"></div>
+			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="closeBuyModal">Close</el-button>
 				<el-button type="warning" @click="buySubmit" :loading="btnLoading">Submit</el-button>
@@ -215,7 +225,8 @@
 		orderList,
 		orderAdd,
 		reviewAdd,
-		productList
+		productList,
+		contactList
 	} from '@/api/api'
 
 	export default {
@@ -230,6 +241,7 @@
 				tableData: [],
 				selsData: [],
 				selectId: '',
+				formatId: '',
 				searchForm: {
 					No: '',
 					state: '0'
@@ -272,7 +284,8 @@
 				disUpload: false,
 				ViewImageModal: false,
 				ViewImageUrl: '',
-				timer: ''
+				timer: '',
+				contact: ''
 			}
 		},
 		destroyed() {
@@ -281,6 +294,7 @@
 		created() {
 			this.getOrderData()
 			this.getProductData()
+			this.getContactData()
 		},
 		methods: {
 			// 订单剩余有效时间倒计时
@@ -324,6 +338,7 @@
 					_this.listLoading = false
 					_this.tableData = res.result.Entity
 					_this.tableData.forEach((item, idx) => {
+						item.ImgUrl = item.Picture ? item.Picture.split(',')[0] : item.ProductUrl
 						item.PJImage = item.CommontImage ? item.CommontImage.split(',') : []
 						item.FKImage = item.BuyImage ? item.BuyImage.split(',') : []
 					})
@@ -400,6 +415,7 @@
 				_this.buyModal = true
 				_this.buyModalTitle = 'Fill in the Amazon order number'
 				_this.selectId = row.Id
+				_this.formatId = row.ProductManageSizeColorId
 				let id = row.ProductManageId
 				let data = _this.productData
 				for (let x in data) {
@@ -433,7 +449,8 @@
 							AmazonNumber: _this.buyForm.orderNo,
 							Id: _this.selectId,
 							Price: _this.price,
-							Points: _this.points
+							Points: _this.points,
+							ProductManageSizeColorId: _this.formatId
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
@@ -585,6 +602,18 @@
 				this.fileListAdd = fileList
 				this.hideUploadAdd = false;
 			},
+
+			//获取联系方式
+			getContactData() {
+				let _this = this
+				let cId = localStorage.getItem('cId')
+				let params = {
+					CountryId: cId
+				}
+				contactList(params).then(res => {
+					_this.contact = res.result.Contact
+				}).catch((e) => {})
+			}
 
 		}
 	}

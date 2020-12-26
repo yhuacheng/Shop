@@ -131,7 +131,7 @@
 		<el-dialog title="Message" :visible.sync="MessageModal" width="80%">
 			<span v-html="notice"></span>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="MessageModal=false">I know</el-button>
+				<el-button @click="MessageModal=false">I See</el-button>
 			</div>
 		</el-dialog>
 

@@ -9,6 +9,7 @@
 			</el-col>
 			<el-col :xs="24" :sm="14">
 				<div class="productViewTitle">{{productInfo.name}}</div>
+				<div class="info"><i class="el-icon-price-tag"></i> {{productInfo.typeName}}</div>
 				<el-row :gutter="30">
 					<el-col :xs="24" :sm="14">
 						<div class="productViewCon">
@@ -22,9 +23,9 @@
 									<span class="success">{{productInfo.num}}</span>
 								</div>
 								<div class="productView">
-									<span class="fz20 text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
+									<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
 									<el-tag type="danger" size="small">{{productInfo.discount-100}}%</el-tag>
-									<span class="fz20 warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
+									<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
 									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}} Points</span>
 								</div>
 							</div>
@@ -138,6 +139,10 @@
 					<el-input v-model="buyForm.orderNo"></el-input>
 				</el-form-item>
 			</el-form>
+			<div v-if="contact">
+				<p class="warning">If you encounter problems, you can contact us through the following ways：</p>
+				<div class="w100" v-html="contact"></div>
+			</div>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="fillInLater" :loading="btnLoading">Fill in later</el-button>
 				<el-button type="warning" @click="buySubmit" :loading="btnLoading">Submit</el-button>
@@ -168,8 +173,7 @@
 				sizeData: [],
 				productInfo: {
 					name: '',
-					country: '',
-					type: '',
+					typeName: '',
 					price: '',
 					nowPrice: '',
 					currency: '',
@@ -181,7 +185,8 @@
 					description: '',
 					image: '',
 					allImage: [],
-					level: ''
+					level: '',
+					formatId: 0
 				},
 				rate: '',
 				tip: false,
@@ -275,6 +280,7 @@
 				for (let x in data) {
 					if (data[x].Id == id) {
 						_this.productInfo.name = data[x].ProductName
+						_this.productInfo.typeName = data[x].EnglishName
 						_this.productInfo.price = data[x].Price
 						_this.productInfo.nowPrice = data[x].PresentPrice
 						_this.productInfo.currency = data[x].Currency
@@ -360,6 +366,7 @@
 					_this.productInfo.price = _this.pData[0].SizeColorPrice
 					_this.productInfo.discount = _this.pData[0].SizeColorDiscount
 					_this.productInfo.nowPrice = _this.pData[0].SizeColorPresentPrice
+					_this.productInfo.formatId = _this.pData[0].Id
 					_this.buyForm.asin = _this.pData[0].SizeColorASIN
 					_this.checkStock()
 				}
@@ -602,7 +609,8 @@
 					AmazonNumber: '',
 					Id: 0,
 					Price: price,
-					Points: points
+					Points: points,
+					ProductManageSizeColorId: _this.productInfo.formatId
 				}
 				orderAdd(params).then(res => {
 					_this.btnLoading = false
@@ -645,7 +653,8 @@
 							AmazonNumber: _this.buyForm.orderNo,
 							Id: _this.orderId,
 							Price: price,
-							Points: points
+							Points: points,
+							ProductManageSizeColorId: _this.productInfo.formatId
 						}
 						orderAdd(params).then(res => {
 							_this.btnLoading = false
