@@ -202,7 +202,9 @@
 						<el-button type="warning" size="mini" @click='resetImg'>Reset picture</el-button>
 					</div>
 				</el-form-item>
-
+				<el-form-item label="Your paypal account：">
+					<span>{{userData.PaypalAccount}}</span>
+				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="closeReviewModal">Close</el-button>
@@ -226,7 +228,8 @@
 		orderAdd,
 		reviewAdd,
 		productList,
-		contactList
+		contactList,
+		userInfo
 	} from '@/api/api'
 
 	export default {
@@ -285,7 +288,8 @@
 				ViewImageModal: false,
 				ViewImageUrl: '',
 				timer: '',
-				contact: ''
+				contact: '',
+				userData: {}
 			}
 		},
 		destroyed() {
@@ -295,6 +299,7 @@
 			this.getOrderData()
 			this.getProductData()
 			this.getContactData()
+			this.getUserData()
 		},
 		methods: {
 			// 订单剩余有效时间倒计时
@@ -613,7 +618,18 @@
 				contactList(params).then(res => {
 					_this.contact = res.result.Contact
 				}).catch((e) => {})
-			}
+			},
+
+			// 获取用户数据
+			getUserData() {
+				let _this = this
+				let params = {
+					Id: sessionStorage.getItem('userId')
+				}
+				userInfo(params).then(res => {
+					_this.userData = res.result
+				}).catch((e) => {})
+			},
 
 		}
 	}

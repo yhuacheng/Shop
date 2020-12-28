@@ -37,3 +37,5 @@ export const orderList = (params) => get('/api/Order/GetOrderList', params) //�
 export const orderAdd = (params) => post('/api/Order/AddShoppingCart', params) //订单添加
 
 export const reviewAdd = (params) => postForm('/api/Order/WriteEvaluate', params) //评论添加
+
+export const paypalEdit = (params) => post('/api/Login/ChangePaypalAccount', params) //PP账号修改

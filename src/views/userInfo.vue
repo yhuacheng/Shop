@@ -1,30 +1,51 @@
 <template>
 	<div class="user-box-out">
 		<div class="user-box">
-			<el-form :model="userData" ref="userData" :inline="true" label-width="110px">
-				<el-form-item label="Email：">
-					<span>{{userData.Email}}</span>
-				</el-form-item>
-				<el-form-item label="First Name：">
-					<span>{{userData.FirstName}}</span>
-				</el-form-item>
-				<el-form-item label="Last Name：">
-					<span>{{userData.LastName}}</span>
-				</el-form-item>
-				<el-form-item label="level：">
-					<span>{{userData.BuyerGrade}}</span>
-				</el-form-item>
-				<el-form-item label="Points：">
-					<span>{{userData.BuyerScore}}</span>
-				</el-form-item>
-				<el-form-item label="Paypal：">
-					<span>{{userData.PaypalAccount}}</span>
-				</el-form-item>
-				<el-form-item label="ProfileUrl：">
-					<el-link :underline="false" v-if="userData.ProfileUrl" :href="userData.ProfileUrl" target="_blank" type="primary">{{userData.ProfileUrl}}</el-link>
-				</el-form-item>
+			<el-form :model="userData" ref="userData" :inline="true" label-width="90px">
+				<el-row>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+						<el-form-item label="Email：">
+							<span>{{userData.Email}}</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+						<el-form-item label="Name：">
+							<span>{{userData.LastName}}·{{userData.FirstName}}</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item label="level：">
+							<span>{{userData.BuyerGrade}}</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="3">
+						<el-form-item label="Points：">
+							<span>{{userData.BuyerScore}}</span>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="8">
+						<el-form-item label="ProfileUrl：">
+							<el-link :underline="false" v-if="userData.ProfileUrl" :href="userData.ProfileUrl" target="_blank" type="primary">{{userData.ProfileUrl}}</el-link>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :xs="24">
+						<el-form-item label="Paypal：">
+							<span>{{userData.PaypalAccount}}</span>
+							<el-popover placement="bottom" width="290" trigger="click">
+								<el-table :data="paypalData" :show-header="false">
+									<el-table-column width="290" property="HistoryPaypal" label="paypal" center></el-table-column>
+								</el-table>
+								<el-button class="ml10" slot="reference" type="primary" size="mini" plain>history paypal</el-button>
+							</el-popover>
+							<el-button class="ml10" type="warning" size="mini" plain @click="ppEdit">edit paypal</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 		</div>
+
 		<!-- 推荐产品 -->
 		<div v-if="productData.length>0">
 			<el-divider content-position="left" class="x-line">You May Like</el-divider>
@@ -63,14 +84,16 @@
 <script>
 	import {
 		userInfo,
-		productList
+		productList,
+		paypalEdit
 	} from '@/api/api'
 	export default {
 		name: 'userInfo',
 		data() {
 			return {
 				userData: {},
-				productData: []
+				productData: [],
+				paypalData: []
 			}
 		},
 		created() {
@@ -86,6 +109,10 @@
 				}
 				userInfo(params).then(res => {
 					_this.userData = res.result
+					let pp = res.result.HistoryPaypal
+					if (pp) {
+						_this.paypalData = pp.split(',')
+					}
 				}).catch((e) => {})
 			},
 
@@ -134,6 +161,27 @@
 						id: id
 					}
 				})
+			},
+
+			//修改PP账号
+			ppEdit() {
+				let _this = this
+				_this.$prompt('Please enter your new paypal account', 'Message', {
+					confirmButtonText: 'Submit',
+					cancelButtonText: 'cancel',
+					inputPattern: /\S/,
+					inputErrorMessage: 'Paypal is required'
+				}).then(({
+					value
+				}) => {
+					let params = {
+						Id: sessionStorage.getItem('userId'),
+						PaypalAccount: value
+					}
+					paypalEdit(params).then(res => {
+						_this.getUserData()
+					}).catch((e) => {})
+				}).catch(() => {})
 			}
 
 		}
