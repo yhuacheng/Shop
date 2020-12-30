@@ -28,14 +28,16 @@
 							<el-link :underline="false" v-if="userData.ProfileUrl" :href="userData.ProfileUrl" target="_blank" type="primary">{{userData.ProfileUrl}}</el-link>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :xs="24">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
 						<el-form-item label="Paypal：">
 							<span>{{userData.PaypalAccount}}</span>
-							<el-popover placement="bottom" width="290" trigger="click">
-								<el-table :data="paypalData" :show-header="false">
-									<el-table-column width="290" property="HistoryPaypal" label="paypal" center></el-table-column>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="5">
+						<el-form-item>
+							<el-popover placement="bottom" width="250" trigger="click">
+								<el-table :data="paypalData" :show-header="false" size='mini'>
+									<el-table-column width="250" property="paypal" label="paypal" center></el-table-column>
 								</el-table>
 								<el-button class="ml10" slot="reference" type="primary" size="mini" plain>history paypal</el-button>
 							</el-popover>
@@ -111,7 +113,14 @@
 					_this.userData = res.result
 					let pp = res.result.HistoryPaypal
 					if (pp) {
-						_this.paypalData = pp.split(',')
+						let arr = pp.split(',')
+						let data = []
+						for (let x in arr) {
+							data.push({
+								'paypal': arr[x]
+							})
+						}
+						_this.paypalData = data
 					}
 				}).catch((e) => {})
 			},

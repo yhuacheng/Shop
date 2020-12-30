@@ -460,6 +460,20 @@ body {
 	}
 }
 
+.timefree{
+	margin-top: 35px;
+	border: 1px solid #eee;
+	background: #F9F9F9;
+	.el-carousel__mask{
+		background: none !important;
+	}
+	.timefree-item{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
 // login/signup
 .longin-box{
 	width: 100%;
