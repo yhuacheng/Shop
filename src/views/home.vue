@@ -9,38 +9,38 @@
 		<el-row class="step-box">
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title">
+					<div class="title hidden-sm-and-down">
 						<div><img src="../assets/image/process_1.png"></div>
-						<div>AUDIT >>></div>
+						<div>VIEW >>></div>
 					</div>
-					<div class="text">Click the 'Review Request' button and Waiting for audit</div>
+					<div class="text">① Click the 'Review Request' button and View information</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title">
+					<div class="title hidden-sm-and-down">
 						<div><img src="../assets/image/process_2.png"></div>
-						<div>CONFIRMATION >>></div>
+						<div>BUY >>></div>
 					</div>
-					<div class="text">Get seller confirmation and buy on Amazon within 7 days</div>
+					<div class="text">② Buy on Amazon after obtaining product information</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title">
+					<div class="title hidden-sm-and-down">
 						<div><img src="../assets/image/process_3.png"></div>
 						<div>APPROVED >>></div>
 					</div>
-					<div class="text">Fill in Amazon order info and approved by the system</div>
+					<div class="text">③ Fill in Amazon order info and approved by the system</div>
 				</div>
 			</el-col>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
 				<div class="item">
-					<div class="title">
+					<div class="title hidden-sm-and-down">
 						<div><img src="../assets/image/process_4.png"></div>
 						<div>CASHBACK</div>
 					</div>
-					<div class="text">Get the refund to your PayPal account</div>
+					<div class="text">④ Get the refund to your PayPal account</div>
 				</div>
 			</el-col>
 		</el-row>
@@ -126,6 +126,9 @@
 							</el-card>
 						</el-col>
 					</el-row>
+					<div class="viewMore-box" v-if="discountData.length>=12">
+						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('discount')">View More Products →</el-button>
+					</div>
 				</div>
 
 				<!-- 赠品商品 -->
@@ -156,6 +159,9 @@
 							</el-card>
 						</el-col>
 					</el-row>
+					<div class="viewMore-box" v-if="freebiesData.length>=12">
+						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('freebies')">View More Products →</el-button>
+					</div>
 				</div>
 
 				<!-- 积分商品 -->
@@ -186,6 +192,9 @@
 							</el-card>
 						</el-col>
 					</el-row>
+					<div class="viewMore-box" v-if="pointsData.length>=12">
+						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('points')">View More Products →</el-button>
+					</div>
 				</div>
 
 				<!-- 佣金商品 -->
@@ -216,6 +225,9 @@
 							</el-card>
 						</el-col>
 					</el-row>
+					<div class="viewMore-box" v-if="commissionData.length>=12">
+						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('commission')">View More Products →</el-button>
+					</div>
 				</div>
 
 			</el-col>
@@ -305,10 +317,10 @@
 					let pointsData = data.filter(item => item.DiscountsTypeId == "3")
 					let commissionData = data.filter(item => item.DiscountsTypeId == "4")
 					let timefreebiesData = data.filter(item => item.Free == "1")
-					_this.discountData = discountData.slice(0, 30)
-					_this.freebiesData = freebiesData.slice(0, 30)
-					_this.pointsData = pointsData.slice(0, 30)
-					_this.commissionData = commissionData.slice(0, 30)
+					_this.discountData = discountData.slice(0, 12)
+					_this.freebiesData = freebiesData.slice(0, 12)
+					_this.pointsData = pointsData.slice(0, 12)
+					_this.commissionData = commissionData.slice(0, 12)
 					_this.timefreebiesData = timefreebiesData
 				}).catch((e) => {})
 			},
@@ -319,6 +331,16 @@
 					path: '/detail',
 					query: {
 						id: id
+					}
+				})
+			},
+
+			//查看更多
+			viewMore(s) {
+				this.$router.push({
+					path: '/product/' + s,
+					query: {
+						keywords: ''
 					}
 				})
 			}

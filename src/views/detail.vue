@@ -60,11 +60,11 @@
 							<div class="item title">For this products, follow the steps as below</div>
 							<div class="item">
 								<div><img src="../assets/image/process_1.png"></div>
-								<div>Click the ‘Review Request’button and Waiting foraudit</div>
+								<div>Click the 'Review Request' button and View information</div>
 							</div>
 							<div class="item">
 								<div><img src="../assets/image/process_2.png"></div>
-								<div>Get seller confirmation and buy on Amazon within 7 days</div>
+								<div>Buy on Amazon after obtaining product information</div>
 							</div>
 							<div class="item">
 								<div><img src="../assets/image/process_3.png"></div>
