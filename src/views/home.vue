@@ -127,7 +127,11 @@
 						</el-col>
 					</el-row>
 					<div class="viewMore-box" v-if="discountData.length>=12">
-						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('discount')">View More Products →</el-button>
+						<el-row :gutter="30" type="flex" justify="end">
+							<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4">
+								<el-button type="warning" size="small" class="mt20" @click="viewMore('discount')">View More Products →</el-button>
+							</el-col>
+						</el-row>
 					</div>
 				</div>
 
@@ -160,7 +164,11 @@
 						</el-col>
 					</el-row>
 					<div class="viewMore-box" v-if="freebiesData.length>=12">
-						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('freebies')">View More Products →</el-button>
+						<el-row :gutter="30" type="flex" justify="end">
+							<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4">
+								<el-button type="warning" size="small" class="mt20" @click="viewMore('freebies')">View More Products →</el-button>
+							</el-col>
+						</el-row>
 					</div>
 				</div>
 
@@ -193,7 +201,11 @@
 						</el-col>
 					</el-row>
 					<div class="viewMore-box" v-if="pointsData.length>=12">
-						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('points')">View More Products →</el-button>
+						<el-row :gutter="30" type="flex" justify="end">
+							<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4">
+								<el-button type="warning" size="small" class="mt20" @click="viewMore('points')">View More Products →</el-button>
+							</el-col>
+						</el-row>
 					</div>
 				</div>
 
@@ -226,7 +238,11 @@
 						</el-col>
 					</el-row>
 					<div class="viewMore-box" v-if="commissionData.length>=12">
-						<el-button type="warning" size="small" class="f-r mt20" @click="viewMore('commission')">View More Products →</el-button>
+						<el-row :gutter="30" type="flex" justify="end">
+							<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4">
+								<el-button type="warning" size="small" class="mt20" @click="viewMore('points')">View More Products →</el-button>
+							</el-col>
+						</el-row>
 					</div>
 				</div>
 

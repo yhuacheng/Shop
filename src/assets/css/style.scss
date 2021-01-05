@@ -491,6 +491,14 @@ body {
 	clear: both;
 	height:30px;
 	border-top:1px solid #FFFFFF;
+	button{
+		width: 100%;
+		background: #fd5632;
+		border: none;
+	}
+	button:hover{
+		background: #fa1632;
+	}
 }
 
 // login/signup
