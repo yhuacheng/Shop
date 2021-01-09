@@ -59,25 +59,23 @@
 								<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
 							</div>
 						</el-badge>
-						<div class="product-title">{{item.ProductName}}</div>
-						<div class="product-line"></div>
-						<div class="product-card-con">
-							<div class="infor">
-								<div><span class="info">stock:</span><span class="fz18 orange">{{item.Number}}</span></div>
-								<div>
-									<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
-								</div>
+						<div class="product-con">
+							<div class="product-title">{{item.ProductName}}</div>
+							<el-rate :value="5" disabled></el-rate>
+							<div class="stock">
+								<span v-if="item.Number>0">stock {{item.Number}}</span>
+								<span v-if="item.Number<=0">no stock</span>
 							</div>
-							<div class="product-price">
-								<div class="fz16 now-price">{{item.Currency}}{{item.PresentPrice}}</div>
-								<div class="fz14 text-line-x info old-price">{{item.Currency}}{{item.Price}}</div>
+							<div class="price">
+								<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+								<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
 							</div>
 						</div>
 					</el-card>
 				</el-col>
 			</el-row>
 			<div>
-				<el-button type="warning" round class="f-r mt30" @click="getProductData">Change Next</el-button>
+				<el-button class="f-r mt30" @click="getProductData">Change Next</el-button>
 			</div>
 		</div>
 

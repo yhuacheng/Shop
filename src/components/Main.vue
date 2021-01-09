@@ -2,8 +2,8 @@
 	<el-container>
 		<el-header>
 			<!-- pc菜单 -->
-			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#fd5632" text-color="#ffffff"
-			 active-text-color="#ffff00" mode="horizontal" unique-opened router>
+			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#336666" text-color="#ffffff"
+			 active-text-color="#fbf0c3" mode="horizontal" unique-opened router>
 				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
 				</el-menu-item>
@@ -26,7 +26,7 @@
 					</el-input>
 				</span>
 				<span v-if="notice" @click="MessageModal=true">
-					<el-badge value="1" class="item message" type="success">
+					<el-badge value="1" class="item message" type="danger">
 						<i class="el-icon-message"></i>
 					</el-badge>
 				</span>
@@ -50,13 +50,13 @@
 				</el-submenu>
 			</el-menu>
 			<!-- 移动端菜单 -->
-			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#fd5632" text-color="#ffffff"
-			 active-text-color="#ffff00" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
+			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#336666" text-color="#ffffff"
+			 active-text-color="#fbf0c3" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
 
 					<div v-if="notice" @click.stop="MessageModal=true">
-						<el-badge value="1" class="item message mb-message" type="success">
+						<el-badge value="1" class="item message mb-message" type="danger">
 							<i class="el-icon-message"></i>
 						</el-badge>
 					</div>

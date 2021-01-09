@@ -10,8 +10,8 @@
 			<el-col :xs="24" :sm="14">
 				<div class="productViewTitle">{{productInfo.name}}</div>
 				<div class="info"><i class="el-icon-price-tag"></i> {{productInfo.typeName}}</div>
-				<el-row :gutter="30">
-					<el-col :xs="24" :sm="14">
+				<el-row :gutter="80">
+					<el-col :xs="24" :sm="12">
 						<div class="productViewCon">
 							<div class="productView">
 								<span>Level:</span>
@@ -49,13 +49,13 @@
 						</div>
 						<div class="productView">
 							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
-							<el-button v-if="!userId" :disabled="disLogin" type="warning" round class="w100 mt20" @click="goToLogin">
+							<el-button v-if="!userId" :disabled="disLogin" type="warning" class="w100 mt20" @click="goToLogin">
 								Login to request this review</el-button>
-							<el-button v-if="userId" :disabled="disBuy" type="warning" round class="w100 mt10" :loading="btnLoading" @click="checkBuy">
+							<el-button v-if="userId" :disabled="disBuy" type="warning" class="w100 mt10" :loading="btnLoading" @click="checkBuy">
 								Review Request</el-button>
 						</div>
 					</el-col>
-					<el-col :xs="24" :sm="10">
+					<el-col :xs="24" :sm="12">
 						<div class="step-con">
 							<div class="item title">For this products, follow the steps as below</div>
 							<div class="item">
@@ -93,24 +93,22 @@
 		<el-row :gutter="30">
 			<el-divider v-if="productDataOther.length>0" content-position="left" class="x-line">You May Also Like</el-divider>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productDataOther" :key="item.Id">
-				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)" style="border: 1px solid #F1F1F1;">
 					<el-badge :value="item.Grade">
 						<div class="scale-img">
 							<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
 						</div>
 					</el-badge>
-					<div class="product-title">{{item.ProductName}}</div>
-					<div class="product-line"></div>
-					<div class="product-card-con">
-						<div class="infor">
-							<div><span class="info">stock:</span><span class="fz18 orange">{{item.Number}}</span></div>
-							<div>
-								<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
-							</div>
+					<div class="product-con">
+						<div class="product-title">{{item.ProductName}}</div>
+						<el-rate :value="5" disabled></el-rate>
+						<div class="stock">
+							<span v-if="item.Number>0">stock {{item.Number}}</span>
+							<span v-if="item.Number<=0">no stock</span>
 						</div>
-						<div class="product-price">
-							<div class="fz16 now-price">{{item.Currency}}{{item.PresentPrice}}</div>
-							<div class="fz14 text-line-x info old-price">{{item.Currency}}{{item.Price}}</div>
+						<div class="price">
+							<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+							<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
 						</div>
 					</div>
 				</el-card>
