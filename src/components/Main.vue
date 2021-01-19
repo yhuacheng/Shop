@@ -54,26 +54,12 @@
 			 active-text-color="#fbf0c3" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
-
+					<div><i class="el-icon-postcard fff" style="font-size: 30px;"></i></div>
 					<div v-if="notice" @click.stop="MessageModal=true">
 						<el-badge value="1" class="item message mb-message" type="danger">
 							<i class="el-icon-message"></i>
 						</el-badge>
 					</div>
-
-					<el-dropdown class="f-r" @command="handleCommand">
-						<el-button class="country-btn">
-							<img class="country-img" :src="countryImg">
-							<span> {{countryName}}</span>
-							<i class="el-icon-arrow-down el-icon--right"></i>
-						</el-button>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item style="margin: 5px 0" v-for="item in countryData" :command="item.Id+','+item.CounteyShorthand">
-								<img class="country-img" :src="item.icon"> {{item.CounteyShorthand}}
-							</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
-					<div><i class="el-icon-postcard fff" style="font-size: 30px;"></i></div>
 				</el-menu-item>
 				<transition name="el-zoom-in-top">
 					<div v-if="mobilMenuShow">
@@ -90,6 +76,20 @@
 							<el-menu-item index="/userInfo">User Profile</el-menu-item>
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
+
+						<el-dropdown class="f-r" @command="handleCommand" style="position: absolute;bottom: 70px;right: 0px;">
+							<el-button class="country-btn">
+								<img class="country-img" :src="countryImg">
+								<span> {{countryName}}</span>
+								<i class="el-icon-arrow-down el-icon--right"></i>
+							</el-button>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item style="margin: 5px 0" v-for="item in countryData" :command="item.Id+','+item.CounteyShorthand">
+									<img class="country-img" :src="item.icon"> {{item.CounteyShorthand}}
+								</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
+
 						<div class="mb-search">
 							<el-input placeholder="Search Products" v-model="search">
 								<el-select v-model="select" slot="prepend" class="search-select">
