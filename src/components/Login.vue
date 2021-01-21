@@ -174,15 +174,9 @@
 				},
 				rules: {
 					email: [{
-							required: true,
-							message: 'Please enter your email',
-							trigger: 'blur',
-						},
-						{
-							validator: validateEmail,
-							trigger: "blur"
-						}
-					],
+						validator: validateEmail,
+						trigger: "blur"
+					}],
 					password: [{
 						required: true,
 						message: 'Please enter your password',
@@ -214,15 +208,9 @@
 						trigger: 'blur'
 					},
 					email: [{
-							required: true,
-							message: 'Please enter your email',
-							trigger: 'blur',
-						},
-						{
-							validator: validateEmail,
-							trigger: "change"
-						}
-					],
+						validator: validateEmail,
+						trigger: "change"
+					}],
 					emailCode: {
 						required: true,
 						message: 'Please enter the email verification code',
@@ -240,12 +228,7 @@
 						required: true,
 						message: 'Please enter your paypal account',
 						trigger: 'blur'
-					},
-					amzProfile: {
-						required: true,
-						message: 'Please enter your amazon profile',
-						trigger: 'blur'
-					},
+					}
 				},
 				resetForm: {
 					email: '',
@@ -255,15 +238,9 @@
 				},
 				rules3: {
 					email: [{
-							required: true,
-							message: 'Please enter your email',
-							trigger: 'blur',
-						},
-						{
-							validator: validateEmail,
-							trigger: "change"
-						}
-					],
+						validator: validateEmail,
+						trigger: "change"
+					}],
 					emailCode: {
 						required: true,
 						message: 'Please enter the email verification code',
@@ -338,7 +315,7 @@
 						_this.btnLoading = true
 
 						//创建formData 用formData形式传参
-						let params = new FormData();
+						let params = new FormData()
 						params.append('FirstName', _this.regForm.firstName)
 						params.append('LastName', _this.regForm.lastName)
 						params.append('Email', _this.regForm.email)
@@ -349,13 +326,18 @@
 						_this.fileListAdd.map(item => {
 							params.append("image", item.raw)
 						})
-
-						register(params).then(res => {
+						//个人资料链接与个人资料截图必须至少填写一项
+						if (!_this.regForm.amzProfile && _this.fileListAdd.length == 0) {
+							this.$message.error('Fill in at least one of Amazon profile and Amazon profile screenshot')
 							_this.btnLoading = false
-							_this.doType = 'login'
-						}).catch((e) => {
-							_this.btnLoading = false
-						})
+						} else {
+							register(params).then(res => {
+								_this.btnLoading = false
+								_this.doType = 'login'
+							}).catch((e) => {
+								_this.btnLoading = false
+							})
+						}
 					}
 				})
 			},
