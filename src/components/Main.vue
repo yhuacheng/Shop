@@ -2,7 +2,7 @@
 	<el-container>
 		<el-header>
 			<!-- pc菜单 -->
-			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#336666" text-color="#ffffff"
+			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#FF6A28" text-color="#ffffff"
 			 active-text-color="#fbf0c3" mode="horizontal" unique-opened router>
 				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
@@ -50,7 +50,7 @@
 				</el-submenu>
 			</el-menu>
 			<!-- 移动端菜单 -->
-			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#336666" text-color="#ffffff"
+			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#FF6A28" text-color="#ffffff"
 			 active-text-color="#fbf0c3" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
