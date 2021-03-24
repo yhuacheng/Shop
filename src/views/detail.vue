@@ -2,9 +2,11 @@
 	<div class="productView-box">
 		<el-row :gutter="60">
 			<el-col :xs="24" :sm="10">
-				<img class="productImage" :src="$IMGURL+productInfo.image" />
+				<el-image class="productImage big-img" :src="$IMGURL+productInfo.image" fit="contain"></el-image>
 				<ul class="product-imgs">
-					<li v-for="item in productInfo.allImage" @click="changeImg(item)"><img class="productImage" :src="$IMGURL+item" /></li>
+					<li v-for="item in productInfo.allImage" @click="changeImg(item)">
+						<el-image class="productImage small-img" :src="$IMGURL+item" fit="contain"></el-image>
+					</li>
 				</ul>
 			</el-col>
 			<el-col :xs="24" :sm="14">
@@ -26,32 +28,39 @@
 									<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
 									<el-tag type="danger" size="small">{{productInfo.discount-100}}%</el-tag>
 									<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
-									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}} Points</span>
+									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}}
+										Points</span>
 								</div>
 							</div>
 							<div class="productView">
-								<span v-if="productInfo.disType=='4'" class="warning">You will get {{productInfo.commission}} commission</span>
+								<span v-if="productInfo.disType=='4'" class="warning">You will get
+									{{productInfo.commission}} commission</span>
 							</div>
 						</div>
 						<div class="productViewCon" v-if="colorData.length>0 || sizeData.length>0">
 							<el-form label-width="50px" size="small" class="mt10">
 								<el-form-item label="Color:" v-if="colorData.length>0">
 									<el-radio-group v-model="color" size="mini" @change="selectColor">
-										<el-radio border v-for="(item,index) in colorData" :label="item.id">{{item.name}}</el-radio>
+										<el-radio border v-for="(item,index) in colorData" :label="item.id">
+											{{item.name}}
+										</el-radio>
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="Size:" v-if="sizeData.length>0">
 									<el-radio-group v-model="size" size="mini" @change="selectSize">
-										<el-radio border v-for="(item,index) in sizeData" :label="item.id">{{item.name}}</el-radio>
+										<el-radio border v-for="(item,index) in sizeData" :label="item.id">{{item.name}}
+										</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-form>
 						</div>
 						<div class="productView">
 							<el-alert v-if="tip" :title="tipTxt" type="error" show-icon :closable="false"></el-alert>
-							<el-button v-if="!userId" :disabled="disLogin" type="warning" class="w100 mt20" @click="goToLogin">
+							<el-button v-if="!userId" :disabled="disLogin" type="warning" class="w100 mt20"
+								@click="goToLogin">
 								Login to request this review</el-button>
-							<el-button v-if="userId" :disabled="disBuy" type="warning" class="w100 mt10" :loading="btnLoading" @click="checkBuy">
+							<el-button v-if="userId" :disabled="disBuy" type="warning" class="w100 mt10"
+								:loading="btnLoading" @click="checkBuy">
 								Review Request</el-button>
 						</div>
 					</el-col>
@@ -91,9 +100,11 @@
 		</el-row>
 
 		<el-row :gutter="30">
-			<el-divider v-if="productDataOther.length>0" content-position="left" class="x-line">You May Also Like</el-divider>
+			<el-divider v-if="productDataOther.length>0" content-position="left" class="x-line">You May Also Like
+			</el-divider>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productDataOther" :key="item.Id">
-				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)" style="border: 1px solid #F1F1F1;">
+				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+					style="border: 1px solid #F1F1F1;">
 					<el-badge :value="item.Grade">
 						<div class="scale-img">
 							<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
@@ -116,7 +127,8 @@
 		</el-row>
 
 		<!-- 购买信息弹窗 -->
-		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :showClose="false" width="90%">
+		<el-dialog :title="buyModalTitle" :visible.sync="buyModal" :close-on-click-modal="false" :showClose="false"
+			width="90%">
 			<el-form :model="buyForm" :rules="rules" ref="buyForm" class="warning">
 				<el-form-item label="Product Name：">
 					<span>{{buyForm.productName}}</span>
@@ -463,7 +475,8 @@
 						if (userLevel > productLevel) {
 							_this.disBuy = true
 							_this.tip = true
-							_this.tipTxt = 'Your account level is ' + userLevel + ', so you cannot purchase this product'
+							_this.tipTxt = 'Your account level is ' + userLevel +
+								', so you cannot purchase this product'
 						} else {
 							_this.disBuy = false
 							_this.tip = false
@@ -489,7 +502,8 @@
 					let newPrice = (Number(_this.productInfo.nowPrice) + Number(cha)).toFixed(2)
 					_this.newPrice = newPrice
 					_this.tip = true
-					_this.tipTxt = "You only have " + points + " points now，if you want this product，you will use " + newPrice + _this
+					_this.tipTxt = "You only have " + points + " points now，if you want this product，you will use " +
+						newPrice + _this
 						.productInfo.currency + " + " + points + " ponits to buy，are you sure？"
 				} else {
 					_this.tip = false
