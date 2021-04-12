@@ -11,7 +11,7 @@ Vue.use(ElementUI, {
 	locale
 })
 
-Vue.prototype.$IMGURL = 'http://47.112.217.146:9090' //统一设置页面上图片URL路径入口
+Vue.prototype.$IMGURL = 'http://47.52.42.54:8080' //统一设置页面上图片URL路径入口
 
 router.beforeEach((to, from, next) => {
 	let cId = localStorage.getItem('cId') //国家id
