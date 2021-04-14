@@ -1,6 +1,9 @@
 <template>
-	<div class="productBox">
-		<el-divider v-if="productData.length>0" class="x-line">Hot Products</el-divider>
+	<div class="productBox" v-if="productData.length>0">
+		<div class="hidden-sm-and-up" style="height: 30px;"></div>
+		<div class="line-box">
+			<span class="title">Hot Products <i class="el-icon-d-arrow-right"></i></span>
+		</div>
 		<div class="hot-productBox">
 			<el-row>
 				<el-col :span="24" v-for="item in productData" :key="item.Id">

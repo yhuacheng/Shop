@@ -12,14 +12,17 @@
 							</el-col>
 							<el-col :xs='24' :md="7">
 								<el-form-item label="Name">
-									<el-input v-model="searchForm.name" placeholder="Please enter the product name" class="w90"></el-input>
+									<el-input v-model="searchForm.name" placeholder="Please enter the product name"
+										class="w90"></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col :xs='24' :md="7">
 								<el-form-item label="Category">
-									<el-select v-model="searchForm.type" placeholder="Please enter product category" class="w90">
+									<el-select v-model="searchForm.type" placeholder="Please enter product category"
+										class="w90">
 										<el-option value="0" label="All category"></el-option>
-										<el-option v-for="item in typeData" :key="item.Id" :label="item.EnglishName" :value="item.Id"></el-option>
+										<el-option v-for="item in typeData" :key="item.Id" :label="item.EnglishName"
+											:value="item.Id"></el-option>
 									</el-select>
 								</el-form-item>
 							</el-col>
@@ -38,7 +41,8 @@
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -58,8 +62,9 @@
 					</el-row>
 					<el-row v-if="total>48" class="mt30 turn-page">
 						<el-col :span="24">
-							<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageIndex"
-							 :page-size="48" layout="total, prev, pager, next, jumper" :total="total">
+							<el-pagination background @size-change="handleSizeChange"
+								@current-change="handleCurrentChange" :current-page="pageIndex" :page-size="48"
+								layout="total, prev, pager, next, jumper" :total="total">
 							</el-pagination>
 						</el-col>
 					</el-row>
@@ -67,7 +72,6 @@
 			</el-col>
 
 			<el-col :xs="24" :md="6" class="product-list">
-				<div class="biaoyu">Discover good products, explore new life</div>
 				<HotProduct></HotProduct>
 			</el-col>
 

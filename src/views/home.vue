@@ -2,45 +2,69 @@
 	<div>
 		<el-carousel :height="bannerHeight+'px'" trigger="click" v-if="bannerData.length>0">
 			<el-carousel-item v-for="item in bannerData" :key="item.Id">
-				<a :href="item.Link" target="_blank"><img class="banner-img" ref="bannerHeight" @load="bannerLoad" :src="$IMGURL+item.Image"></a>
+				<a :href="item.Link" target="_blank"><img class="banner-img" ref="bannerHeight" @load="bannerLoad"
+						:src="$IMGURL+item.Image"></a>
 			</el-carousel-item>
 		</el-carousel>
 
-		<el-row class="step-box" :gutter="30">
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-				<div class="item item1">
-					<div class="title hidden-sm-and-down">
-						<div><img src="../assets/image/process_1.png"></div>
-						<div>VIEW >>></div>
-					</div>
-					<div class="text">① Click the 'Review Request' button and View information</div>
+		<el-row class="step-box hidden-sm-and-down">
+			<el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4" :offset="1">
+				<div class="item">
+					<el-col :span="6">
+						<i class="el-icon-edit-outline icon"></i>
+					</el-col>
+					<el-col :span="18">
+						<div class="title">AUDIT</div>
+						<p class="text">Click the 'Review Request' button and View information</p>
+					</el-col>
 				</div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-				<div class="item item2">
-					<div class="title hidden-sm-and-down">
-						<div><img src="../assets/image/process_2.png"></div>
-						<div>BUY >>></div>
-					</div>
-					<div class="text">② Buy on Amazon after obtaining product information</div>
+			<el-col :xs="24" :sm="12" :md="2" :lg="2" :xl="2">
+				<div class="icon-right">
+					<i class="el-icon-d-arrow-right"></i>
 				</div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-				<div class="item item3">
-					<div class="title hidden-sm-and-down">
-						<div><img src="../assets/image/process_3.png"></div>
-						<div>APPROVED >>></div>
-					</div>
-					<div class="text">③ Fill in Amazon order info and approved by the system</div>
+			<el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
+				<div class="item">
+					<el-col :span="6">
+						<i class="el-icon-shopping-cart-full icon"></i>
+					</el-col>
+					<el-col :span="18">
+						<div class="title">CONFIRMATION</div>
+						<p class="text">Buy on Amazon after obtaining product information</p>
+					</el-col>
 				</div>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-				<div class="item item4">
-					<div class="title hidden-sm-and-down">
-						<div><img src="../assets/image/process_4.png"></div>
-						<div>CASHBACK</div>
-					</div>
-					<div class="text">④ Get the refund to your PayPal account</div>
+			<el-col :xs="24" :sm="12" :md="2" :lg="2" :xl="2">
+				<div class="icon-right">
+					<i class="el-icon-d-arrow-right"></i>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
+				<div class="item">
+					<el-col :span="6">
+						<i class="el-icon-document-checked icon"></i>
+					</el-col>
+					<el-col :span="18">
+						<div class="title">APPROVED</div>
+						<p class="text">Fill in Amazon order info and approved by the system</p>
+					</el-col>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="2" :lg="2" :xl="2">
+				<div class="icon-right">
+					<i class="el-icon-d-arrow-right"></i>
+				</div>
+			</el-col>
+			<el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
+				<div class="item">
+					<el-col :span="6">
+						<i class="el-icon-bank-card icon"></i>
+					</el-col>
+					<el-col :span="18">
+						<div class="title">CASHBACK</div>
+						<p class="text">Get the refund to your PayPal account</p>
+					</el-col>
 				</div>
 			</el-col>
 		</el-row>
@@ -49,13 +73,18 @@
 			<el-col :xs="24">
 				<!-- 限免商品 -->
 				<div v-if="timefreebiesData.length>0" class="timefree hidden-sm-and-down">
-					<el-divider content-position="left" class="x-line">Free For A Limited Time Products</el-divider>
+					<div class="line-box">
+						<span class="title">Free For A Limited Time Products <i
+								class="el-icon-d-arrow-right"></i></span>
+					</div>
 					<swiper :options="swiperOption" class="myswiper">
 						<swiper-slide v-for="item in timefreebiesData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active=item.Id" @mouseleave.native="active=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -68,6 +97,9 @@
 									<div class="price">
 										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="txt-c mt10" style="height: 20px;">
+										<div class="apply-btn" v-show="active==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
@@ -82,13 +114,20 @@
 			<el-col :xs="24" :md="19">
 				<!-- 折扣商品 -->
 				<div v-if="discountData.length>0">
-					<el-divider content-position="left" class="x-line">Discount Products</el-divider>
+					<div class="line-box">
+						<span class="title">Discount Products <i class="el-icon-d-arrow-right"></i></span>
+						<span class="link-more">
+							<el-link :underline="false" v-if="discountData.length>=6"
+								@click.stop="viewMore('discount')"> More >></el-link>
+						</span>
+					</div>
 					<el-row :gutter="40">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in discountData" :key="item.Id">
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -106,21 +145,24 @@
 							</el-card>
 						</el-col>
 					</el-row>
-					<div class="viewMore-box">
-						<el-link :underline="false" v-if="discountData.length>=6" @click.stop="viewMore('discount')"><i class="el-icon-thumb"></i>
-							View More Discount Products</el-link>
-					</div>
 				</div>
 
 				<!-- 赠品商品 -->
 				<div v-if="freebiesData.length>0">
-					<el-divider content-position="left" class="x-line">Freebies Products</el-divider>
+					<div class="line-box">
+						<span class="title">Freebies Products <i class="el-icon-d-arrow-right"></i></span>
+						<span class="link-more">
+							<el-link :underline="false" v-if="freebiesData.length>=6"
+								@click.stop="viewMore('freebies')">More >></el-link>
+						</span>
+					</div>
 					<el-row :gutter="40">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in freebiesData" :key="item.Id">
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -138,21 +180,24 @@
 							</el-card>
 						</el-col>
 					</el-row>
-					<div class="viewMore-box">
-						<el-link :underline="false" v-if="freebiesData.length>=6" @click.stop="viewMore('freebies')"><i class="el-icon-thumb"></i>
-							View More Freebies Products</el-link>
-					</div>
 				</div>
 
 				<!-- 积分商品 -->
 				<div v-if="pointsData.length>0">
-					<el-divider content-position="left" class="x-line">Points Products</el-divider>
+					<div class="line-box">
+						<span class="title">Points Products <i class="el-icon-d-arrow-right"></i></span>
+						<span class="link-more">
+							<el-link :underline="false" v-if="pointsData.length>=6" @click.stop="viewMore('points')">
+							</el-link>
+						</span>
+					</div>
 					<el-row :gutter="40">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in pointsData" :key="item.Id">
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -170,21 +215,24 @@
 							</el-card>
 						</el-col>
 					</el-row>
-					<div class="viewMore-box">
-						<el-link :underline="false" v-if="pointsData.length>=6" @click.stop="viewMore('points')"><i class="el-icon-thumb"></i>
-							View More Points Products</el-link>
-					</div>
 				</div>
 
 				<!-- 佣金商品 -->
 				<div v-if="commissionData.length>0">
-					<el-divider content-position="left" class="x-line">Commission Products</el-divider>
+					<div class="line-box">
+						<span class="title">Commission Products <i class="el-icon-d-arrow-right"></i></span>
+						<span class="link-more">
+							<el-link :underline="false" v-if="commissionData.length>=6"
+								@click.stop="viewMore('commission')"></el-link>
+						</span>
+					</div>
 					<el-row :gutter="40">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in commissionData" :key="item.Id">
 							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
-										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
+										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
+										</el-image>
 									</div>
 								</el-badge>
 								<div class="product-con">
@@ -202,10 +250,6 @@
 							</el-card>
 						</el-col>
 					</el-row>
-					<div class="viewMore-box">
-						<el-link :underline="false" v-if="commissionData.length>=6" @click.stop="viewMore('commission')"><i class="el-icon-thumb"></i>
-							View More Commission Products</el-link>
-					</div>
 				</div>
 
 			</el-col>
@@ -263,7 +307,8 @@
 				freebiesData: [],
 				pointsData: [],
 				commissionData: [],
-				timefreebiesData: []
+				timefreebiesData: [],
+				active: null
 			}
 		},
 		components: {

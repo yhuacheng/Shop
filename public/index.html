@@ -9,26 +9,34 @@
 	</head>
 	<body>
 		<noscript>
-			<strong>We're sorry but website doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+			<strong>We're sorry but website doesn't work properly without JavaScript enabled. Please enable it to
+				continue.</strong>
 		</noscript>
 		<div id="app"></div>
 		<!-- built files will be auto injected -->
 
-		<!--Start of Tawk.to Script-->
-		<script type="text/javascript">
-			var Tawk_API = Tawk_API || {},
-				Tawk_LoadStart = new Date();
-			(function() {
-				var s1 = document.createElement("script"),
-					s0 = document.getElementsByTagName("script")[0];
-				s1.async = true;
-				s1.src = 'https://embed.tawk.to/5f683eb94704467e89f0b3a3/default';
-				s1.charset = 'UTF-8';
-				s1.setAttribute('crossorigin', '*');
-				s0.parentNode.insertBefore(s1, s0);
-			})();
+		<!-- Messenger 聊天插件 Code -->
+		<div id="fb-root"></div>
+		<script>
+			window.fbAsyncInit = function() {
+				FB.init({
+					xfbml: true,
+					version: 'v10.0'
+				});
+			};
+
+			(function(d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s);
+				js.id = id;
+				js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
 		</script>
-		<!--End of Tawk.to Script-->
+
+		<!-- Your 聊天插件 code -->
+		<div class="fb-customerchat" attribution="page_inbox" page_id="106457694163730"></div>
 
 	</body>
 </html>

@@ -120,8 +120,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-	// font-family: open sans,sans-serif;
+	font-family: "comic sans ms","open sans","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 	font-size: 14px;
 	-webkit-font-smoothing: antialiased;
 	background: #f7f7f7;
@@ -185,8 +184,12 @@ body {
 
 .el-header{
 	padding: 0;
+	background: #fff;
 	height: auto !important;
 	min-height: 60px !important;
+	border: none;
+	box-shadow: 0px 5px 10px #ccc;
+	width: 100%;
 }
 
 .el-footer{
@@ -203,7 +206,7 @@ body {
 .country-btn,.country:focus{
 	background: none !important;
 	border: none !important;
-	color: #FFFFFF !important;
+	color: #444 !important;
 }
 
 .country-img{
@@ -215,8 +218,14 @@ body {
 	color: #fff !important;
 }
 
-.el-menu-item i{
-	color: #fff !important;
+.el-menu-item{
+	background: #fff !important;
+	border: none !important;
+}
+
+.el-menu-item:hover{
+	background: #fff !important;
+	color: #FF6A28 !important;
 }
 
 .el-menu-item,.el-submenu__title{
@@ -245,16 +254,25 @@ body {
 	line-height: 60px;
 	outline: none;
 	.el-input-group__append, .el-input-group__prepend{
+		border-radius: 0;
 		background: none;
-		color: #FFFFFF;
+		.el-button{
+			border-radius: 0;
+			background: #FF6A28;
+			color: #444;
+			i{
+				font-weight: bolder;
+			}
+		}
 	}
 	.search-input{
 		width: 24rem;
 		margin-left: 30px;
 	}
-	input{
+	input,input:focus{
+		outline: none;
 		background: none;
-		color: #FFFFFF;
+		border:1px solid #DCDFE6;
 	}
 	.search-select{
 		width: 8rem;
@@ -270,6 +288,23 @@ body {
 
 .mb-search{
 	padding: 15px;
+	input,input:focus{
+		outline: none;
+		background: none;
+		border:1px solid #DCDFE6;
+	}
+	.el-input-group__append, .el-input-group__prepend{
+		border-radius: 0;
+		background: none;
+		.el-button{
+			border-radius: 0;
+			background: #FF6A28;
+			color: #444;
+			i{
+				font-weight: bolder;
+			}
+		}
+	}
 	.search-select{
 		width: 8rem;
 		.el-input__inner{
@@ -284,7 +319,7 @@ body {
 	cursor: pointer;
 	i{
 		font-size: 38px !important;
-		color: #FFFFFF;
+		color: #444;
 	}
 }
 
@@ -312,29 +347,15 @@ body {
 	padding-bottom: 40px !important;
 }
 
-.x-line.el-divider--horizontal {
-	margin-top: 40px;
-	margin-bottom: 5px;
-}
-
-.x-line .el-divider__text.is-left{
-	left: 0px !important;
-}
-.x-line .el-divider__text{
-	font-size: 18px;
-	color: #666666;
-}
-
-.product-list .x-line.el-divider--horizontal{
-	margin-top: 15px;
-}
-
-.product-list .biaoyu{
-	height: 60px;
-	line-height: 60px;
-	font-size: 14px;
-	color: #FFFFFF;
-	text-align: center;
+.line-box{
+	border-bottom: 1px solid #ddd;
+	height: 36px;
+	line-height: 36px;
+	.title{
+		color: #fff;
+		background: #FF6A28;
+		padding: 9px;
+	}
 }
 
 .scale-img {
@@ -358,6 +379,14 @@ body {
 	-moz-transform: scale3d(1.1, 1.1, 1.1);
 	-webkit-transform: scale3d(1.1, 1.1, 1.1);
 	-o-transform: scale3d(1.1, 1.1, 1.1);
+}
+
+.apply-btn{
+	width: 70%;
+	margin-left: 15%;
+	color: #fff;
+	background: #FEBC8A;
+	padding: 4px 0;
 }
 
 .product-card{
@@ -417,41 +446,34 @@ body {
 }
 
 .step-box{
-	margin:30px 0 30px 0;
-	color: #1e1e1f;
-	.item1{
-		background: #fbf0c3;
-	}
-	.item2{
-		background: #fedec7;
-	}
-	.item3{
-		background: #c8e0e4;
-	}
-	.item4{
-		background: #d5f1df;
+	margin:30px 0;
+	padding: 20px 0;
+	background: #FF6A28;
+	color: #fff;
+}
+
+.step-box .icon-right{
+	text-align: center;
+	i{
+		font-size: 30px;
+		margin-top: 38px;
 	}
 }
 
 .step-box .item{
-	text-align: center;
-	padding: 20px 0;
+	padding: 15px 20px;
+}
+
+.step-box .item .icon{
+	width: 50px;
+	font-size: 50px;
+	float: right;
+	margin-right: 20px;
+	margin-top: 15px;
 }
 
 .step-box .item .title{
-	font-size: 20px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	img{
-		width: 50px;
-		margin-right: 10px;
-	}
-}
-
-.step-box .item .text{
-	margin-top: 10px;
-	color: #333;
+	font-size: 22px;
 }
 
 .el-card{
@@ -494,6 +516,11 @@ body {
 	clear: both;
 	height:30px;
 	text-align: right;
+}
+
+.link-more{
+	float: right; 
+	color: #666;
 }
 
 .el-tag.el-tag--danger{
@@ -581,6 +608,9 @@ body {
 		.old-price{
 			margin-right: 10px;
 			color: #666;
+		}
+		.now-price{
+			color: #FF6A28;
 		}
 	}
 }

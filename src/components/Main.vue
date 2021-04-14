@@ -2,8 +2,8 @@
 	<el-container>
 		<el-header>
 			<!-- pc菜单 -->
-			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#FF6A28" text-color="#ffffff"
-			 active-text-color="#fbf0c3" mode="horizontal" unique-opened router>
+			<el-menu class="hidden-xs-only" :default-active="onRoutes" background-color="#FFF" text-color="#444"
+				active-text-color="#FF6A28" mode="horizontal" unique-opened router>
 				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
 				</el-menu-item>
@@ -37,7 +37,8 @@
 						<i class="el-icon-arrow-down el-icon--right"></i>
 					</el-button>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item style="margin: 5px 0" v-for="item in countryData" :command="item.Id+','+item.CounteyShorthand">
+						<el-dropdown-item style="margin: 5px 0" v-for="item in countryData"
+							:command="item.Id+','+item.CounteyShorthand">
 							<img class="country-img" :src="item.icon"> {{item.CounteyShorthand}}
 						</el-dropdown-item>
 					</el-dropdown-menu>
@@ -50,8 +51,8 @@
 				</el-submenu>
 			</el-menu>
 			<!-- 移动端菜单 -->
-			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#FF6A28" text-color="#ffffff"
-			 active-text-color="#fbf0c3" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
+			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#FFF" text-color="#444"
+				active-text-color="#FF6A28" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
 					<div><i class="el-icon-postcard fff" style="font-size: 30px;"></i></div>
@@ -77,14 +78,16 @@
 							<el-menu-item index="0" @click="loginOut">Login Out</el-menu-item>
 						</el-submenu>
 
-						<el-dropdown class="f-r" @command="handleCommand" style="position: absolute;bottom: 70px;right: 0px;">
+						<el-dropdown class="f-r" @command="handleCommand"
+							style="position: absolute;bottom: 70px;right: 0px;">
 							<el-button class="country-btn">
 								<img class="country-img" :src="countryImg">
 								<span> {{countryName}}</span>
 								<i class="el-icon-arrow-down el-icon--right"></i>
 							</el-button>
 							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item style="margin: 5px 0" v-for="item in countryData" :command="item.Id+','+item.CounteyShorthand">
+								<el-dropdown-item style="margin: 5px 0" v-for="item in countryData"
+									:command="item.Id+','+item.CounteyShorthand">
 									<img class="country-img" :src="item.icon"> {{item.CounteyShorthand}}
 								</el-dropdown-item>
 							</el-dropdown-menu>
@@ -106,7 +109,6 @@
 				</transition>
 			</el-menu>
 		</el-header>
-
 		<el-container>
 			<el-main>
 				<router-view :key="$route.fullPath"></router-view>
@@ -114,9 +116,12 @@
 		</el-container>
 
 		<div class="contact-box">
-			<div class="mr15"><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img" src="../assets/image/f-share-facebook.png" /></a></div>
-			<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img" src="../assets/image/f-share-twitter.png" /></a></div>
-			<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img" src="../assets/image/f-share-email.png" /></a></div>
+			<div class="mr15"><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img"
+						src="../assets/image/f-share-facebook.png" /></a></div>
+			<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img"
+						src="../assets/image/f-share-twitter.png" /></a></div>
+			<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img"
+						src="../assets/image/f-share-email.png" /></a></div>
 			<div>
 				<el-popover placement="top-start" width="320" trigger="hover">
 					<div class="popover-content" v-html="contact"></div>
@@ -125,7 +130,7 @@
 			</div>
 		</div>
 
-		<el-footer>{{year}} © Copyright By Amz-Buy</el-footer>
+		<el-footer>{{year}} © Copyright By Amz-Buy | robertwells4625@gmail.com</el-footer>
 
 		<!-- 公告信息弹窗 -->
 		<el-dialog title="Message" :visible.sync="MessageModal" width="80%">
@@ -218,7 +223,8 @@
 					_this.countryData = res.result
 					//附加上国家图片
 					for (let x in _this.countryData) {
-						_this.countryData[x].icon = require('@/assets/image/' + _this.countryData[x].CounteyShorthand + '.png')
+						_this.countryData[x].icon = require('@/assets/image/' + _this.countryData[x]
+							.CounteyShorthand + '.png')
 					}
 				}).catch((e) => {})
 			},

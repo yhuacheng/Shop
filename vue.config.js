@@ -39,7 +39,7 @@ module.exports = {
 		proxy: {
 			//设置代理
 			'/api': {
-				target: 'http://47.52.42.54',
+				target: 'http://47.112.217.146:90',
 				changeOrigin: true,
 				pathRewrite: {
 					'^/api': '/api'
