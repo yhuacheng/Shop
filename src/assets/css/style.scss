@@ -120,7 +120,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: "comic sans ms","open sans","Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 	font-size: 14px;
 	-webkit-font-smoothing: antialiased;
 	background: #f7f7f7;
@@ -352,9 +352,11 @@ body {
 	height: 36px;
 	line-height: 36px;
 	.title{
+		font-size: 16px;
+		font-weight: bold;
 		color: #fff;
 		background: #FF6A28;
-		padding: 9px;
+		padding: 10px;
 	}
 }
 
