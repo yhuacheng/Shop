@@ -11,7 +11,19 @@
 			</el-col>
 			<el-col :xs="24" :sm="14">
 				<div class="productViewTitle">{{productInfo.name}}</div>
-				<div class="info"><i class="el-icon-price-tag"></i> {{productInfo.typeName}}</div>
+				<div class="info view-tag">
+					<span><i class="el-icon-price-tag"></i> {{productInfo.typeName}}</span>
+					<span class="product-card" style="margin-top: 0;" @click="clickLike">
+						<span class="like-box">
+							<i class="el-icon-thumb fz16" style="position: relative;top: 0px;"></i>
+							<span v-if="likeState==1">Click to unlike it </span>
+							<span v-if="likeState==-1">Click to like it </span>
+							<i v-if="likeState==1" class="el-icon-star-on warning"></i>
+							<i v-if="likeState==-1" class="el-icon-star-on info"></i>
+							<el-badge :value="productInfo.likeNum"></el-badge>
+						</span>
+					</span>
+				</div>
 				<el-row :gutter="80">
 					<el-col :xs="24" :sm="12">
 						<div class="productViewCon">
@@ -25,9 +37,9 @@
 									<span class="success">{{productInfo.num}}</span>
 								</div>
 								<div class="productView">
-									<span class="text-line-x info">{{productInfo.price}}{{productInfo.currency}}</span>
+									<span class="text-line-x info">{{productInfo.currency}}{{productInfo.price}}</span>
 									<el-tag type="danger" size="small">{{productInfo.discount-100}}%</el-tag>
-									<span class="warning">{{productInfo.nowPrice}}{{productInfo.currency}}</span>
+									<span class="warning">{{productInfo.currency}}{{productInfo.nowPrice}}</span>
 									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}}
 										Points</span>
 								</div>
@@ -47,7 +59,7 @@
 									</el-radio-group>
 								</el-form-item>
 								<el-form-item label="Size:" v-if="sizeData.length>0">
-									<el-radio-group v-model="size" size="mini" @change="selectSize">
+									<el-radio-group v-model="size" size="mini">
 										<el-radio border v-for="(item,index) in sizeData" :label="item.id">{{item.name}}
 										</el-radio>
 									</el-radio-group>
@@ -62,6 +74,17 @@
 							<el-button v-if="userId" :disabled="disBuy" type="warning" class="w100 mt10"
 								:loading="btnLoading" @click="checkBuy">
 								Review Request</el-button>
+						</div>
+						<el-alert v-if="productInfo.remark" :title="productInfo.remark" type="warning" show-icon
+							:closable="false">
+						</el-alert>
+						<div class="contact-icon">
+							<div><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img"
+										src="../assets/image/f-share-facebook.png" /></a></div>
+							<div><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img"
+										src="../assets/image/f-share-twitter.png" /></a></div>
+							<div><a href="mailto:robertwells4625@gmail.com"><img class="icon-img"
+										src="../assets/image/f-share-email.png" /></a></div>
 						</div>
 					</el-col>
 					<el-col :xs="24" :sm="12">
@@ -99,12 +122,13 @@
 			</el-col>
 		</el-row>
 
-		<el-row :gutter="30">
-			<el-divider v-if="productDataOther.length>0" content-position="left" class="x-line">You May Also Like
-			</el-divider>
+		<el-row :gutter="30" class="mt30">
+			<div class="line-box" v-if="productDataOther.length>0">
+				<span class="title">You May Also Like <i class="el-icon-d-arrow-right"></i></span>
+			</div>
 			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productDataOther" :key="item.Id">
 				<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
-					style="border: 1px solid #F1F1F1;">
+					@mouseenter.native="active=item.Id" @mouseleave.native="active=null">
 					<el-badge :value="item.Grade">
 						<div class="scale-img">
 							<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain"></el-image>
@@ -112,14 +136,12 @@
 					</el-badge>
 					<div class="product-con">
 						<div class="product-title">{{item.ProductName}}</div>
-						<el-rate :value="5" disabled></el-rate>
-						<div class="stock">
-							<span v-if="item.Number>0">stock {{item.Number}}</span>
-							<span v-if="item.Number<=0">no stock</span>
-						</div>
 						<div class="price">
-							<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+							<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 							<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+						</div>
+						<div class="apply-box">
+							<div class="apply-btn" v-show="active==item.Id">Apply Now</div>
 						</div>
 					</div>
 				</el-card>
@@ -169,19 +191,25 @@
 		userInfo,
 		checkBuyRule,
 		orderAdd,
-		countryList
+		countryList,
+		likeOrDislike,
+		likeState
 	} from '@/api/api'
 
 	export default {
 		name: 'detail',
 		data() {
 			return {
+				active: null,
 				userId: sessionStorage.getItem('userId'),
 				productData: [],
 				formatData: [],
 				colorData: [],
 				sizeData: [],
 				productInfo: {
+					id: '',
+					likeNum: 0,
+					remark: '',
 					name: '',
 					typeName: '',
 					price: '',
@@ -229,7 +257,9 @@
 				productDataOther: [],
 				orderId: '',
 				color: '',
-				size: ''
+				size: '',
+				likeState: -1, //（1点赞 -1未点赞）
+				likeId: '' //点赞表Id
 			}
 		},
 		computed: {
@@ -289,6 +319,9 @@
 				let data = _this.productData
 				for (let x in data) {
 					if (data[x].Id == id) {
+						_this.productInfo.id = data[x].Id
+						_this.productInfo.likeNum = data[x].LikeNumber
+						_this.productInfo.remark = data[x].Remarks
 						_this.productInfo.name = data[x].ProductName
 						_this.productInfo.typeName = data[x].EnglishName
 						_this.productInfo.price = data[x].Price
@@ -320,6 +353,7 @@
 				}
 				_this.checkStock()
 				_this.otherProductData()
+				_this.getLikeState()
 			},
 
 			// 获取商品规格信息
@@ -385,6 +419,7 @@
 			//选择颜色
 			selectColor() {
 				let _this = this
+				_this.size = ''
 				let colorData = _this.colorData
 				let id = _this.color
 				//获取图片地址
@@ -424,6 +459,12 @@
 				let data = _this.formatData
 				for (let z in data) {
 					if (id == data[z].ProductSizeId) {
+						colorArry.push({
+							id: data[z].ProductColorId,
+							name: data[z].Color,
+							img: data[z].Picture
+						})
+					} else {
 						colorArry.push({
 							id: data[z].ProductColorId,
 							name: data[z].Color,
@@ -685,6 +726,48 @@
 				_this.buyModal = false
 				_this.$refs['buyForm'].resetFields()
 				_this.buyForm.orderNo = ''
+			},
+
+			//个人点赞情况
+			getLikeState() {
+				let _this = this
+				let userId = sessionStorage.getItem('userId')
+				let params = {
+					ProductMangeId: _this.productInfo.id,
+					BuyerId: userId ? userId : 0
+				}
+				likeState(params).then(res => {
+					_this.likeState = res.result.State ? res.result.State : -1
+					_this.likeId = res.result.Id
+				}).catch((e) => {})
+			},
+
+			//点赞
+			clickLike() {
+				let _this = this
+				let userId = sessionStorage.getItem('userId')
+				if (!userId) {
+					_this.goToLogin()
+				} else {
+					let v = ''
+					let id = ''
+					if (_this.likeState == 1) {
+						v = -1
+						id = _this.likeId
+					} else {
+						v = 1
+						id = _this.productInfo.id
+					}
+					let params = {
+						Type: v,
+						BuyerId: userId,
+						Id: id
+					}
+					likeOrDislike(params).then(res => {
+						_this.getProductData()
+						_this.getLikeState()
+					}).catch((e) => {})
+				}
 			}
 
 		}

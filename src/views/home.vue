@@ -69,7 +69,7 @@
 			</el-col>
 		</el-row>
 
-		<el-row :gutter="40">
+		<el-row :gutter="30">
 			<el-col :xs="24">
 				<!-- 限免商品 -->
 				<div v-if="timefreebiesData.length>0" class="timefree hidden-sm-and-down">
@@ -89,16 +89,11 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
 									</div>
-									<div class="txt-c mt10" style="height: 20px;">
+									<div class="apply-box">
 										<div class="apply-btn" v-show="active==item.Id">Apply Now</div>
 									</div>
 								</div>
@@ -121,9 +116,10 @@
 								@click.stop="viewMore('discount')"> More >></el-link>
 						</span>
 					</div>
-					<el-row :gutter="40">
+					<el-row :gutter="30">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in discountData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active1=item.Id" @mouseleave.native="active1=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
 										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
@@ -132,14 +128,12 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="apply-box">
+										<div class="apply-btn" v-show="active1==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
@@ -149,16 +143,17 @@
 
 				<!-- 赠品商品 -->
 				<div v-if="freebiesData.length>0">
-					<div class="line-box">
+					<div class="line-box mt30">
 						<span class="title">Freebies Products <i class="el-icon-d-arrow-right"></i></span>
 						<span class="link-more">
 							<el-link :underline="false" v-if="freebiesData.length>=6"
 								@click.stop="viewMore('freebies')">More >></el-link>
 						</span>
 					</div>
-					<el-row :gutter="40">
+					<el-row :gutter="30">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in freebiesData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active2=item.Id" @mouseleave.native="active2=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
 										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
@@ -167,14 +162,12 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="apply-box">
+										<div class="apply-btn" v-show="active2==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
@@ -184,16 +177,17 @@
 
 				<!-- 积分商品 -->
 				<div v-if="pointsData.length>0">
-					<div class="line-box">
+					<div class="line-box mt30">
 						<span class="title">Points Products <i class="el-icon-d-arrow-right"></i></span>
 						<span class="link-more">
 							<el-link :underline="false" v-if="pointsData.length>=6" @click.stop="viewMore('points')">
 							</el-link>
 						</span>
 					</div>
-					<el-row :gutter="40">
+					<el-row :gutter="30">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in pointsData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active3=item.Id" @mouseleave.native="active3=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
 										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
@@ -202,14 +196,12 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="apply-box">
+										<div class="apply-btn" v-show="active3==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
@@ -219,16 +211,17 @@
 
 				<!-- 佣金商品 -->
 				<div v-if="commissionData.length>0">
-					<div class="line-box">
+					<div class="line-box mt30">
 						<span class="title">Commission Products <i class="el-icon-d-arrow-right"></i></span>
 						<span class="link-more">
 							<el-link :underline="false" v-if="commissionData.length>=6"
 								@click.stop="viewMore('commission')"></el-link>
 						</span>
 					</div>
-					<el-row :gutter="40">
+					<el-row :gutter="30">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in commissionData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active4=item.Id" @mouseleave.native="active4=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
 										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
@@ -237,14 +230,12 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="apply-box">
+										<div class="apply-btn" v-show="active4==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
@@ -308,7 +299,11 @@
 				pointsData: [],
 				commissionData: [],
 				timefreebiesData: [],
-				active: null
+				active: null,
+				active1: null,
+				active2: null,
+				active3: null,
+				active4: null
 			}
 		},
 		components: {

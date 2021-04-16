@@ -17,16 +17,16 @@
 							<div class="product-title">{{item.ProductName}}</div>
 							<div class="product-price">
 								<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
-								<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
+								<el-tag type="info" size="mini">{{item.Discount-100}}%</el-tag>
 								<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
 							</div>
 							<div class="product-bottom">
-								<div class="stock">
-									<span v-if="item.Number>0">stock {{item.Number}}</span>
-									<span v-if="item.Number<=0">no stock</span>
-								</div>
 								<div>
-									<span class="warning">{{item.TName}}</span>
+									<span class="success">{{item.TName}}</span>
+								</div>
+								<div class="like-box">
+									<i class="el-icon-star-on warning"></i>
+									<el-badge value="120"></el-badge>
 								</div>
 							</div>
 						</div>

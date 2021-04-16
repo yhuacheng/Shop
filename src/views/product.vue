@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-row :gutter="40">
+		<el-row :gutter="30">
 			<el-col :xs="24" :md="18">
 				<div class="search-box">
 					<el-form :model="searchForm" label-width="80px">
@@ -36,9 +36,10 @@
 					</el-form>
 				</div>
 				<div class="productBox">
-					<el-row :gutter="40">
+					<el-row :gutter="30">
 						<el-col :xs="12" :sm="12" :md="8" :lg="6" :xl="4" v-for="item in productData" :key="item.Id">
-							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)">
+							<el-card class="product-card" shadow="hover" @click.native="viewDetails(item.Id)"
+								@mouseenter.native="active=item.Id" @mouseleave.native="active=null">
 								<el-badge :value="item.Grade">
 									<div class="scale-img">
 										<el-image class="product-img" :src="$IMGURL+item.ProductUrl" fit="contain">
@@ -47,20 +48,18 @@
 								</el-badge>
 								<div class="product-con">
 									<div class="product-title">{{item.ProductName}}</div>
-									<el-rate :value="5" disabled></el-rate>
-									<div class="stock">
-										<span v-if="item.Number>0">stock {{item.Number}}</span>
-										<span v-if="item.Number<=0">no stock</span>
-									</div>
 									<div class="price">
-										<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
+										<span class="old-price text-line-x">{{item.Currency}}{{item.Price}}</span>
 										<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
+									</div>
+									<div class="apply-box">
+										<div class="apply-btn" v-show="active==item.Id">Apply Now</div>
 									</div>
 								</div>
 							</el-card>
 						</el-col>
 					</el-row>
-					<el-row v-if="total>48" class="mt30 turn-page">
+					<el-row v-if="total>30" class="mt30 turn-page">
 						<el-col :span="24">
 							<el-pagination background @size-change="handleSizeChange"
 								@current-change="handleCurrentChange" :current-page="pageIndex" :page-size="48"
@@ -93,7 +92,7 @@
 		data() {
 			return {
 				pageIndex: 1,
-				pageSize: 48,
+				pageSize: 30,
 				total: 0,
 				productData: [],
 				typeData: [],
@@ -101,7 +100,8 @@
 					name: this.$route.query.keywords,
 					type: '0'
 				},
-				disTypeV: this.$route.params.type.toUpperCase()
+				disTypeV: this.$route.params.type.toUpperCase(),
+				active: null
 			}
 		},
 		components: {

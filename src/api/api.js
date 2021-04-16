@@ -39,3 +39,7 @@ export const orderAdd = (params) => post('/api/Order/AddShoppingCart', params) /
 export const reviewAdd = (params) => postForm('/api/Order/WriteEvaluate', params) //评论添加
 
 export const paypalEdit = (params) => post('/api/Login/ChangePaypalAccount', params) //PP账号修改
+
+export const likeOrDislike = (params) => post('/api/MesaurLink/LikeOrdislike', params) //商品点赞
+
+export const likeState = (params) => get('/api/MesaurLink/GetListModel', params) //商品个人点赞情况
