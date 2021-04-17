@@ -75,8 +75,8 @@
 								:loading="btnLoading" @click="checkBuy">
 								Review Request</el-button>
 						</div>
-						<el-alert v-if="productInfo.remark" :title="productInfo.remark" type="warning" show-icon
-							:closable="false">
+						<el-alert v-if="productInfo.remark && productInfo.remark!='null'" :title="productInfo.remark"
+							type="warning" show-icon :closable="false">
 						</el-alert>
 						<div class="contact-icon">
 							<div><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img"

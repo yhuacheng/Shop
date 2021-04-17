@@ -26,7 +26,7 @@
 								</div>
 								<div class="like-box">
 									<i class="el-icon-star-on warning"></i>
-									<el-badge value="120"></el-badge>
+									<el-badge :value="item.LikeNumber"></el-badge>
 								</div>
 							</div>
 						</div>
