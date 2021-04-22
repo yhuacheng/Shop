@@ -7,10 +7,13 @@
 				<el-menu-item index="/home" style="border: none;">
 					<img class="logImg" src="../assets/image/logo.png" />
 				</el-menu-item>
+				<!--
 				<el-menu-item index="/product/discount">DISCOUNT</el-menu-item>
 				<el-menu-item index="/product/freebies">FREEBIES</el-menu-item>
 				<el-menu-item index="/product/points">POINTS FOR</el-menu-item>
 				<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
+				-->
+				<el-menu-item index="/product/all">PRODUCTS</el-menu-item>
 				<el-menu-item index="/order">ORDER</el-menu-item>
 				<el-menu-item index="/faq">FAQ</el-menu-item>
 				<span class="pc-search">
@@ -65,10 +68,13 @@
 				<transition name="el-zoom-in-top">
 					<div v-if="mobilMenuShow">
 						<el-menu-item index="/home">HOME</el-menu-item>
+						<!--
 						<el-menu-item index="/product/discount">DISCOUNT</el-menu-item>
 						<el-menu-item index="/product/freebies">FREEBIES</el-menu-item>
 						<el-menu-item index="/product/points">POINTS FOR</el-menu-item>
 						<el-menu-item index="/product/commission">EARN COMMISSION</el-menu-item>
+						-->
+						<el-menu-item index="/product/all">PRODUCTS</el-menu-item>
 						<el-menu-item index="/order">ORDER</el-menu-item>
 						<el-menu-item index="/faq">FAQ</el-menu-item>
 						<el-menu-item v-if="!userId" index="/login">LogIn / SignUp</el-menu-item>

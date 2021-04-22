@@ -5,20 +5,27 @@
 				<div class="search-box">
 					<el-form :model="searchForm" label-width="80px">
 						<el-row>
-							<el-col :xs='24' :md="3">
-								<el-form-item style="text-align: left;">
-									<el-tag type="warning" style="margin-left: -50px;">{{disTypeV}} Products</el-tag>
+							<el-col :xs='24' :md="6">
+								<el-form-item label="Type">
+									<el-select v-model="searchForm.pType" placeholder="Please select product type"
+										class="w90">
+										<el-option label="All" value="all"></el-option>
+										<el-option label="Discount" value="discount"></el-option>
+										<el-option label="Freebies" value="freebies"></el-option>
+										<el-option label="Points" value="points"></el-option>
+										<el-option label="Commission" value="commission"></el-option>
+									</el-select>
 								</el-form-item>
 							</el-col>
-							<el-col :xs='24' :md="7">
+							<el-col :xs='24' :md="6">
 								<el-form-item label="Name">
 									<el-input v-model="searchForm.name" placeholder="Please enter the product name"
 										class="w90"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :xs='24' :md="7">
+							<el-col :xs='24' :md="6">
 								<el-form-item label="Category">
-									<el-select v-model="searchForm.type" placeholder="Please enter product category"
+									<el-select v-model="searchForm.type" placeholder="Please select product category"
 										class="w90">
 										<el-option value="0" label="All category"></el-option>
 										<el-option v-for="item in typeData" :key="item.Id" :label="item.EnglishName"
@@ -26,8 +33,8 @@
 									</el-select>
 								</el-form-item>
 							</el-col>
-							<el-col :xs='24' :md="7">
-								<el-form-item style="text-align: left;">
+							<el-col :xs='24' :md="6">
+								<el-form-item>
 									<el-button @click="searchData" icon="el-icon-search">Search</el-button>
 									<el-button @click="resetSearch" icon="el-icon-refresh">Reset</el-button>
 								</el-form-item>
@@ -97,10 +104,10 @@
 				productData: [],
 				typeData: [],
 				searchForm: {
+					pType: this.$route.params.type,
 					name: this.$route.query.keywords,
 					type: '0'
 				},
-				disTypeV: this.$route.params.type.toUpperCase(),
 				active: null
 			}
 		},
@@ -116,8 +123,11 @@
 			getProductData() {
 				let _this = this
 				let cId = localStorage.getItem('cId')
-				let type = _this.$route.params.type
-				let typev = 0
+				let type = _this.searchForm.pType
+				let typev = ''
+				if (type == 'all') {
+					typev = 0
+				}
 				if (type == 'discount') {
 					typev = 1
 				}
@@ -160,6 +170,7 @@
 				let _this = this
 				_this.pageIndex = 1
 				_this.searchForm = {
+						pType: 'all',
 						name: '',
 						type: '0',
 					},

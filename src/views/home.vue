@@ -146,7 +146,7 @@
 					<div class="line-box mt30">
 						<span class="title">Freebies Products <i class="el-icon-d-arrow-right"></i></span>
 						<span class="link-more">
-							<el-link :underline="false" v-if="freebiesData.length>=6"
+							<el-link :underline="false" v-if="freebiesData.length>=24"
 								@click.stop="viewMore('freebies')">More >></el-link>
 						</span>
 					</div>
@@ -365,7 +365,7 @@
 					let commissionData = data.filter(item => item.DiscountsTypeId == "4")
 					let timefreebiesData = data.filter(item => item.Free == "1")
 					_this.discountData = discountData.slice(0, 6)
-					_this.freebiesData = freebiesData.slice(0, 6)
+					_this.freebiesData = freebiesData.slice(0, 24)
 					_this.pointsData = pointsData.slice(0, 6)
 					_this.commissionData = commissionData.slice(0, 6)
 					timefreebiesData.forEach(item => {

@@ -17,7 +17,7 @@
 							<div class="product-title">{{item.ProductName}}</div>
 							<div class="product-price">
 								<span class="text-line-x old-price">{{item.Currency}}{{item.Price}}</span>
-								<el-tag type="info" size="mini">{{item.Discount-100}}%</el-tag>
+								<el-tag type="danger" size="mini">{{item.Discount-100}}%</el-tag>
 								<span class="now-price">{{item.Currency}}{{item.PresentPrice}}</span>
 							</div>
 							<div class="product-bottom">
