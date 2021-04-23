@@ -39,7 +39,7 @@
 								<div class="productView">
 									<span class="text-line-x info">{{productInfo.currency}}{{productInfo.price}}</span>
 									<el-tag type="danger" size="small">{{productInfo.discount-100}}%</el-tag>
-									<span class="warning">{{productInfo.currency}}{{productInfo.nowPrice}}</span>
+									<span	class="deteil-now-price">{{productInfo.currency}}{{productInfo.nowPrice}}</span>
 									<span v-if="productInfo.disType=='3'" class="warning">+ {{productInfo.integral}}
 										Points</span>
 								</div>
