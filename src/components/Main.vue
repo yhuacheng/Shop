@@ -117,26 +117,28 @@
 		</el-header>
 		<el-container>
 			<el-main>
-				<router-view :key="$route.fullPath"></router-view>
+				<div class="main-container">
+					<router-view :key="$route.fullPath"></router-view>
+				</div>
+				<div class="foot-container">
+					<div class="contact-box">
+						<div class="mr15"><a href="https://www.facebook.com/accpower" target="_blank"><img
+									class="icon-img" src="../assets/image/f-share-facebook.png" /></a></div>
+						<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img
+									class="icon-img" src="../assets/image/f-share-twitter.png" /></a></div>
+						<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img"
+									src="../assets/image/f-share-email.png" /></a></div>
+						<div>
+							<el-popover placement="top-start" width="320" trigger="hover">
+								<div class="popover-content" v-html="contact"></div>
+								<el-button round slot="reference">Contact us</el-button>
+							</el-popover>
+						</div>
+					</div>
+					<el-footer>{{year}} © Copyright By Amz-Buy | robertwells4625@gmail.com</el-footer>
+				</div>
 			</el-main>
 		</el-container>
-
-		<div class="contact-box">
-			<div class="mr15"><a href="https://www.facebook.com/accpower" target="_blank"><img class="icon-img"
-						src="../assets/image/f-share-facebook.png" /></a></div>
-			<div class="mr15"><a href="https://twitter.com/Francesouth2" target="_blank"><img class="icon-img"
-						src="../assets/image/f-share-twitter.png" /></a></div>
-			<div class="mr30"><a href="mailto:robertwells4625@gmail.com"><img class="icon-img"
-						src="../assets/image/f-share-email.png" /></a></div>
-			<div>
-				<el-popover placement="top-start" width="320" trigger="hover">
-					<div class="popover-content" v-html="contact"></div>
-					<el-button round slot="reference">Contact us</el-button>
-				</el-popover>
-			</div>
-		</div>
-
-		<el-footer>{{year}} © Copyright By Amz-Buy | robertwells4625@gmail.com</el-footer>
 
 		<!-- 公告信息弹窗 -->
 		<el-dialog title="Message" :visible.sync="MessageModal" width="80%">
