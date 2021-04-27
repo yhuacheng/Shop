@@ -364,10 +364,14 @@
 					let pointsData = data.filter(item => item.DiscountsTypeId == "3")
 					let commissionData = data.filter(item => item.DiscountsTypeId == "4")
 					let timefreebiesData = data.filter(item => item.Free == "1")
-					_this.discountData = discountData.slice(0, 6)
-					_this.freebiesData = freebiesData.slice(0, 24)
-					_this.pointsData = pointsData.slice(0, 6)
-					_this.commissionData = commissionData.slice(0, 6)
+					// _this.discountData = discountData.slice(0, 6)
+					// _this.freebiesData = freebiesData.slice(0, 24)
+					// _this.pointsData = pointsData.slice(0, 6)
+					// _this.commissionData = commissionData.slice(0, 6)
+					_this.discountData = _this.randomArr(discountData, 6)
+					_this.freebiesData = _this.randomArr(freebiesData, 24)
+					_this.pointsData = _this.randomArr(pointsData, 6)
+					_this.commissionData = _this.randomArr(commissionData, 6)
 					timefreebiesData.forEach(item => {
 						if (item.DiscountsTypeId == '1') {
 							item.TName = 'Discount'
@@ -384,6 +388,22 @@
 					})
 					_this.timefreebiesData = timefreebiesData
 				}).catch((e) => {})
+			},
+
+			//从数组中获取随机元素
+			randomArr(arr, num) {
+				let newArr = []
+				if (arr.length > 0) {
+					if (arr.length < num) {
+						num = arr.length
+					}
+					for (let i = 0; i < num; i++) {
+						let temp = Math.floor(Math.random() * arr.length)
+						newArr.push(arr[temp])
+						arr.splice(temp, 1)
+					}
+				}
+				return newArr
 			},
 
 			//查看商品详情
