@@ -55,7 +55,7 @@
 			</el-menu>
 			<!-- 移动端菜单 -->
 			<el-menu class="hidden-sm-and-up" :default-active="onRoutes" background-color="#FFF" text-color="#444"
-				active-text-color="#FF6A28" unique-opened router @select="mobilMenuShow=!mobilMenuShow">
+				active-text-color="#FF6A28" unique-opened router @select="mobilMenuShow=!mobilMenuShow" style="z-index: 999;">
 				<el-menu-item style="display: flex; justify-content:space-between;">
 					<div><img class="logImg" src="../assets/image/logo.png" /></div>
 					<div><i class="el-icon-postcard fff" style="font-size: 30px;"></i></div>
